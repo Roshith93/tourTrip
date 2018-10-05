@@ -8,7 +8,7 @@ import Dialog from 'material-ui/Dialog';
 import moment from 'moment';
 import axios from 'axios';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-
+import Hotels from '../Mainpage/Hotels';
 // import {
 //   Table,
 //   TableBody,
@@ -39,7 +39,7 @@ const minDate1 = new Date();
 const app_id = "c66591e4";
 const api_key = "89d9830bfee0cb120f65ef19e5ed1fce";
 const base_url = "https://developer.goibibo.com";
-const flightData = null;
+const flightData=" ";
 for (let i = 0; i < 50; i++ ) {
   adults.push(<MenuItem value={i} key={i} primaryText={i} />);
   child.push(<MenuItem value={i} key={i} primaryText={i} />);
@@ -53,6 +53,7 @@ class Flights extends Component {
      open: false,
      selected: [-1],
      minDate:minDate1,
+     showResults: false,
    };
    style = {
      marginRight : '25px',
@@ -111,7 +112,9 @@ class Flights extends Component {
 
         }
         flights.map((data, i) => console.log(i));
-
+        this.flightData= "ABc";
+        console.log(this.flightData);
+        this.setState({showResults: true});
       })
     }
     submit = () => {
@@ -200,12 +203,9 @@ class Flights extends Component {
        >
          Please fill all the fields
        </Dialog>
+       { this.state.showResults ? <Hotels data={flightData}/> : null }
 
-       <BootstrapTable data={ flights }>
-       <TableHeaderColumn dataField='airline' isKey>Product ID</TableHeaderColumn>
-       <TableHeaderColumn dataField='airline'>Product Name</TableHeaderColumn>
-       <TableHeaderColumn dataField='airline'>Product Price</TableHeaderColumn>
-     </BootstrapTable>
+
 </div>
      //   <Table  onRowSelection={this.handleRowSelection}>
      //   <TableHeader>
