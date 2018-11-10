@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SignIn from './SignIn'
 import SignUp from './SignUp'
-import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 class Navbar extends Component {
   render() {
@@ -14,4 +14,11 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar
+const mapStateToProps = (state) => {
+   console.log(state);
+  return{
+    auth: state.firebase.auth
+  }
+}
+
+export default connect(mapStateToProps)(Navbar)

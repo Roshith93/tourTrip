@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { connect } from 'react-redux'
+import { signIn } from '../../reducers/actions/authActions'
+
 class SignIn extends Component {
     state = {
 
@@ -17,6 +20,7 @@ class SignIn extends Component {
     submit = (e) => {
         e.preventDefault();
         console.log(this.state);
+        this.props.signIn(this.state);
     }
     render() {
     return (
@@ -42,4 +46,17 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn
+const mapStateToProps = (state) => {
+    console.log(state);
+    return {
+        authError: state.auth.authError
+    }
+}
+const mapDispachToProps = (dispatch) =>{
+
+    return{
+        signIn: (creds) => dispatch(signIn(creds))
+    }
+}
+
+export default connect(mapStateToProps, mapDispachToProps)(SignIn)
