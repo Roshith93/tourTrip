@@ -3,10 +3,21 @@ import { Link } from 'react-router-dom'
 
 const SignIn = () => {
     return (
-        <ul className="right">
-            <li><Link to="/signup">SignUp</Link></li>
-            <li><Link to="/signin">SignIn</Link></li>
-        </ul>
+        <div>
+            <ul className="left">
+                <li><Link to="/">TourTrip</Link></li>
+                <li><Link to="/flight">Flights</Link></li>
+                <li><Link to="/train">Trains</Link></li>
+                <li><Link to="/hotel">Hotels</Link></li>
+                <li><Link to="/bus">Buses</Link></li>
+            </ul>
+            <ul className="right">
+                <li><Link to='/'>Logout</Link></li>
+                <li><Link to='/' className="btn btn-floating pink lighten-1">NN</Link></li>
+            </ul>
+
+        </div>
+
     )
 }
 
