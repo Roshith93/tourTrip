@@ -4,20 +4,15 @@ import { connect } from 'react-redux'
 import { signOut } from'../../reducers/actions/authActions'
 const SignIn = (props) => {
     return (
-        <div>
-            <ul className="left">
-                <li><Link to="/">TourTrip</Link></li>
+            <ul>
                 <li><Link to="/flight">Flights</Link></li>
                 <li><Link to="/train">Trains</Link></li>
                 <li><Link to="/hotel">Hotels</Link></li>
                 <li><Link to="/bus">Buses</Link></li>
-            </ul>
-            <ul className="right">
-                <li><a onClick={props.signOut}>Logout</a></li>
-                <li><Link to='/' className="btn btn-floating pink lighten-1">NN</Link></li>
+                <li className="right"><a onClick={props.signOut}>Logout</a></li>
+                <li className="right"><Link to='/' className="btn btn-floating pink lighten-1">NN</Link></li>
             </ul>
 
-        </div>
 
     )
 }
@@ -28,4 +23,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 
-export default connect(null, mapDispatchToProps)(SignIn)
+export default connect(null,mapDispatchToProps)(SignIn)
