@@ -29,12 +29,14 @@ class BusData extends Component {
     }
 
     userData = {
-        TravelsName: null,
-        ArrivalTime: null,
-        DepartureTime: null,
+        source: null,
+        destination: null,
+        travelsName: null,
+        arrivalTime: null,
+        departureTime: null,
         duration: null,
-        BusType: null,
-        totalbasefare: null,
+        busType: null,
+        totalBaseFare: null,
         rating: null
     }
     isSelected = (index) => {
@@ -76,17 +78,22 @@ class BusData extends Component {
     }
 
     saveBuss = (e) => {
+        
         e.preventDefault();
         let data = Busses[this.state.saved];
-        this.userData.ArrivalTime = data.ArrivalTime;
-        this.userData.BusType = data.BusType;
-        this.userData.DepartureTime = data.DepartureTime;
+        this.userData.source = this.props.data.source;
+        this.userData.destination = this.props.data.destination;
+        this.userData.arrivalTime = data.ArrivalTime;
+        this.userData.busType = data.BusType;
+        this.userData.departureTime = data.DepartureTime;
         this.userData.duration = data.duration;
         this.userData.rating = data.rating;
-        this.userData.totalbasefare = data.fare.totalbasefare;
-        this.userData.TravelsName = data.TravelsName;
+        this.userData.totalBaseFare = data.fare.totalbasefare;
+        this.userData.travelsName = data.TravelsName;
         this.props.userBusData(this.userData);
+        // this.props.history.push('/');
     }
+
     render() {
         const actions = [
             <FlatButton
@@ -140,6 +147,7 @@ class BusData extends Component {
         )
     }
 }
+// Adds the argument to the global props
 
 const mapDispatchToProps = dispatch => {
     return {
