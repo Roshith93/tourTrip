@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 class SignUp extends Component {
     state = {
         firstName: null,
@@ -20,6 +23,9 @@ class SignUp extends Component {
         console.log(this.state);
     }
     render() {
+        const { authError, auth } = this.props;
+        console.log(this.props)
+        if (auth.uid) return <Redirect to='/' /> 
     return (
         <div style={this.style}>
             <TextField
@@ -55,4 +61,9 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp 
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+}
+export default connect(mapStateToProps)(SignUp) 
