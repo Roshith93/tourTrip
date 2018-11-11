@@ -7,7 +7,6 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import moment from 'moment';
 import ComponentData from './../../Services/ComponenetData'
-import { connect } from 'react-redux'
 
 const items = [
   <MenuItem key={1} value={1} label="Toronto" primaryText="YYZ" />,
@@ -79,16 +78,16 @@ class Flights extends Component {
     this.userData.deptDate = moment(date).format('YYYYMMDD');
   }
 
- 
+
   submit = () => {
-    // if (this.userData.source === null || this.userData.dest === null || this.userData.adult === null ||
-    //   this.userData.child === null || this.userData.deptDate === null) {
-    //   this.setState({ open: true });
-    // }
-    // else {
-      
-      this.setState({load :true})
-    // }
+    if (this.userData.source === null || this.userData.dest === null || this.userData.adult === null ||
+      this.userData.child === null || this.userData.deptDate === null) {
+      this.setState({ open: true });
+    }
+    else {
+
+      this.setState({ load: true })
+    }
 
   }
   handleClose = () => {
@@ -153,14 +152,14 @@ class Flights extends Component {
         >
           {adults}
         </SelectField>
-        <br/><br/>
+        <br /><br />
         <DatePicker hintText="Departure Date"
           minDate={this.state.minDate}
           onChange={this.date}
           mode="landscape" />
-          <br/><br/>
+        <br /><br />
         <RaisedButton label="Search Flight" primary={true} onClick={this.submit} />
-       
+
         <Dialog
           actions={actions}
           modal={false}
@@ -169,9 +168,9 @@ class Flights extends Component {
         >
           Please fill all the fields
        </Dialog>
-        { this.state.load ? <ComponentData data={this.userData} /> : null}
+        {this.state.load ? <ComponentData data={this.userData} /> : null}
       </div>
-       
+
     );
   }
 }

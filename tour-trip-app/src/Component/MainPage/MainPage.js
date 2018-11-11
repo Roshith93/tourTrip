@@ -11,7 +11,7 @@ class MainPage extends Component {
     if (!auth.uid) return <Redirect to='/signin' /> 
     return(
         <div className="clauser">
-          <h1> Sliding Work</h1>
+          <h1> MainPage Works!!!</h1>
         </div>
     )
   }
