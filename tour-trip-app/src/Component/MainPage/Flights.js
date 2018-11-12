@@ -78,7 +78,6 @@ class Flights extends Component {
     this.userData.deptDate = moment(date).format('YYYYMMDD');
   }
 
-
   submit = () => {
     if (this.userData.source === null || this.userData.dest === null || this.userData.adult === null ||
       this.userData.child === null || this.userData.deptDate === null) {
@@ -88,12 +87,10 @@ class Flights extends Component {
 
       this.setState({ load: true })
     }
-
   }
   handleClose = () => {
     this.setState({ open: false });
   };
-
   moment = (d) => {
     console.log(d);
   }
