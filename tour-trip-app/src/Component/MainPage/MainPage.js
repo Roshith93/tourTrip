@@ -29,6 +29,6 @@ const mapStateToProps = (state) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect([
-    { collection: 'userBusData' }
+    'userBusData', 'userFlightData'
   ])
 )(MainPage)
