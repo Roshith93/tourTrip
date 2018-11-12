@@ -25,7 +25,7 @@ class Buses extends Component {
   style = {
     margin: '30px'
   }
-  userData = { 
+  userData = {
     deptDate: null,
     source: null,
     destination: null,
@@ -37,23 +37,21 @@ class Buses extends Component {
   handleChangeSource = (e) => {
     this.userData.source = e.toLowerCase();
   }
-  
+
   handleChangeDestination = (e) => {
     this.userData.destination = e.toLowerCase();
   }
-  
+
   date = (event, date) => {
     this.userData.deptDate = moment(date).format('YYYYMMDD');
   }
 
   submit = () => {
-    if(this.userData.source === null || this.userData.destination === null || this.userData.deptDate === null)
-    {
+    if (this.userData.source === null || this.userData.destination === null || this.userData.deptDate === null) {
       console.log(this.userData)
       this.setState({ open: true })
     }
-    else
-    {
+    else {
       this.setState({ load: true })
     }
   }
@@ -82,21 +80,20 @@ class Buses extends Component {
           maxSearchResults={5}
           onNewRequest={this.handleChangeDestination}
         />
-         <DatePicker hintText="Departure Date"
+        <DatePicker hintText="Departure Date"
           minDate={this.state.minDate}
           onChange={this.date}
           mode="landscape" />
-          <RaisedButton label="Search Bus" primary={true} onClick={this.submit} />
-       
-       <Dialog
-         actions={actions}
-         modal={false}
-         open={this.state.open}
-         onRequestClose={this.handleClose}
-       >
-         Please fill all the fields
+        <RaisedButton label="Search Bus" primary={true} onClick={this.submit} />
+        <Dialog
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          Please fill all the fields
       </Dialog>
-      { this.state.load ? <BusData data={ this.userData }/> : null }
+        {this.state.load ? <BusData data={this.userData} /> : null}
       </div>
     )
   }

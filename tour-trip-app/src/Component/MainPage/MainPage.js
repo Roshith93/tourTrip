@@ -19,7 +19,7 @@ class MainPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-   console.log(state.firestore.ordered.userBusData);
+   console.log(state.firestore);
   return {
     projects: state.firestore,
     auth: state.firebase.auth
