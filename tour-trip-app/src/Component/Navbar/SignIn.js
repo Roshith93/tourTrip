@@ -9,9 +9,9 @@ const SignIn = (props) => {
                 <li><Link to="/train">Trains</Link></li>
                 <li><Link to="/hotel">Hotels</Link></li>
                 <li><Link to="/bus">Buses</Link></li>
-                <li className="right"><a onClick={props.signOut}>Logout</a></li>
+                <li className="right"><a onClick={ props.signOut }>Logout</a></li>
                 <li className="right"><Link to='/' className="btn btn-floating pink lighten-1">
-                {props.profile.initials}</Link></li>
+                { props.profile.initials }</Link></li>
             </ul>
 
 

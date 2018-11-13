@@ -25,7 +25,6 @@ class SignIn extends Component {
     }
     render() {
         const { authError, auth } = this.props;
-        console.log(authError)
         if (auth.uid) return <Redirect to='/' /> 
         return (
             <div style={this.style}>
@@ -44,14 +43,14 @@ class SignIn extends Component {
                 /><br />
 
                 <RaisedButton label="Submit" primary={true} onClick={this.submit} />
-
+                <br/><br/>
+                { authError !== null ? <p>{ authError }</p>: <p></p> }
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         authError: state.auth.authError,
         auth: state.firebase.auth

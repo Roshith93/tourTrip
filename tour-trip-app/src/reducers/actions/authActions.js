@@ -41,6 +41,7 @@ export const signIn = (credentials) => {
       }).then(() => {
         dispatch({ type: 'SIGNUP_SUCCESS' });
       }).catch((err) => {
+        console.log(err)
         dispatch({ type: 'SIGNUP_ERROR', err});
       });
     }
