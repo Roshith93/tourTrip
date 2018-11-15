@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class Hotels extends Component {
-  render(){
-    return(
-      <div>sdas</div>
-    )
-  }
+const Hotel = () => {
+  return (
+    <div>Hotel Works!!!</div>
+  )
 }
-
-export default Hotels 
+export default Hotel;

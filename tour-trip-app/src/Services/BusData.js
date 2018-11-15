@@ -1,19 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import {
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-} from 'material-ui/Table';
+import BusDataTable from './BusDataTable';
 import { connect } from 'react-redux'
-import { userBusData } from '../reducers/actions/projectAction'
-
 const app_id = "c66591e4";
 const api_key = "89d9830bfee0cb120f65ef19e5ed1fce";
 const base_url = "https://developer.goibibo.com/";
@@ -25,21 +15,7 @@ class BusData extends Component {
         open: false,
         saved: -1
     }
-    userData = {
-        source: null,
-        destination: null,
-        travelsName: null,
-        arrivalTime: null,
-        departureTime: null,
-        duration: null,
-        busType: null,
-        totalBaseFare: null,
-        rating: null,
-        id: null
-    }
-    isSelected = (index) => {
-        return this.state.selected.indexOf(index) !== -1;
-    };
+
     handleRowSelection = (selectedRows) => {
         if (selectedRows[0] !== undefined) {
             this.setState({
@@ -71,24 +47,7 @@ class BusData extends Component {
                     this.setState({ loaded: true })
             })
     }
-    saveBuss = (e) => {
-        e.preventDefault();
-        let data = Busses[this.state.saved];
-        this.userData.source = this.props.data.source;
-        this.userData.destination = this.props.data.destination;
-        this.userData.arrivalTime = data.ArrivalTime;
-        this.userData.busType = data.BusType;
-        this.userData.departureTime = data.DepartureTime;
-        this.userData.duration = data.duration;
-        this.userData.rating = data.rating;
-        this.userData.totalBaseFare = data.fare.totalbasefare;
-        this.userData.travelsName = data.TravelsName;
-        this.userData.id = this.props.auth.uid;
-        this.props.userBusData(this.userData);
-        // this.props.history.push('/');
-    }
     render() {
-        console.log(this.props);
         const actions = [
             <FlatButton
                 label="Cancel"
@@ -99,33 +58,7 @@ class BusData extends Component {
             <div>
                 {this.state.loaded ?
                     <div>
-                        <Table onRowSelection={this.handleRowSelection}>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHeaderColumn>Travelers Name</TableHeaderColumn>
-                                    <TableHeaderColumn>Arrival Time</TableHeaderColumn>
-                                    <TableHeaderColumn>Departure Time</TableHeaderColumn>
-                                    <TableHeaderColumn>Duration</TableHeaderColumn>
-                                    <TableHeaderColumn>Bus Type</TableHeaderColumn>
-                                    <TableHeaderColumn>Total Fare</TableHeaderColumn>
-                                    <TableHeaderColumn>Rating</TableHeaderColumn>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {Busses && Busses.map((user, i) =>
-                                    <TableRow key={i} selected={this.isSelected(i)}>
-                                        <TableRowColumn>{user.TravelsName}</TableRowColumn>
-                                        <TableRowColumn>{user.ArrivalTime}</TableRowColumn>
-                                        <TableRowColumn>{user.DepartureTime}</TableRowColumn>
-                                        <TableRowColumn>{user.duration}</TableRowColumn>
-                                        <TableRowColumn>{user.BusType}</TableRowColumn>
-                                        <TableRowColumn>{user.fare.totalbasefare}</TableRowColumn>
-                                        <TableRowColumn>{user.rating}</TableRowColumn>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                        <RaisedButton label="Book Flight" primary={true} onClick={this.saveBuss} />
+                        <BusDataTable bus={Busses} />
                     </div>
                     : <h2> <strong>Still Loading...</strong></h2>}
                 <Dialog
@@ -145,9 +78,5 @@ const mapStateToProps = (state) => {
         auth: state.firebase.auth
     }
 }
-const mapDispatchToProps = dispatch => {
-    return {
-        userBusData: (project) => dispatch(userBusData(project))
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(BusData);
+
+export default connect(mapStateToProps)(BusData);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
@@ -7,48 +6,65 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import moment from 'moment';
 import ComponentData from './../../Services/ComponenetData'
+import { withStyles } from '@material-ui/core/styles';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import PropTypes from 'prop-types';
 
-const items = [
-  <MenuItem key={1} value={1} label="Toronto" primaryText="YYZ" />,
-  <MenuItem key={2} value={2} label="Tokyo" primaryText="HND" />,
-  <MenuItem key={3} value={3} label="Washington, D.C." primaryText="WAS" />,
-  <MenuItem key={4} value={4} label="Dubai" primaryText="DXB" />,
-  <MenuItem key={5} value={5} label="Delhi" primaryText="DEL" />,
-];
-const items1 = [
-  <MenuItem key={1} value={1} label="Toronto" primaryText="YYZ" />,
-  <MenuItem key={2} value={2} label="Tokyo" primaryText="HND" />,
-  <MenuItem key={3} value={3} label="Washington, D.C." primaryText="WAS" />,
-  <MenuItem key={4} value={4} label="Dubai" primaryText="DXB" />,
-  <MenuItem key={5} value={5} label="Delhi" primaryText="DEL" />,
-];
 const adults = [];
 const child = [];
 const minDate1 = new Date();
+const source = [
+            <MenuItem value={'YYZ'} key={0}><em>Toronto</em></MenuItem>,
+            <MenuItem value={'HND'} key={1}>Tokyo</MenuItem>,
+            <MenuItem value={'WAS'} key={2}>Washington, D.C.</MenuItem>,
+            <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
+            <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
+];
+const destination = [
+            <MenuItem value={'YYZ'} key={0}>Toronto</MenuItem>,
+            <MenuItem value={'HND'} key={1}>Tokyo</MenuItem>,
+            <MenuItem value={'WAS'} key={2}>Washington, D.C.</MenuItem>,
+            <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
+            <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
+];
 
-for (let i = 0; i < 50; i++) {
-  adults.push(<MenuItem value={i} key={i} primaryText={i} />);
-  child.push(<MenuItem value={i} key={i} primaryText={i} />);
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 240,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
+});
+for (let i = 0; i < 20; i++) {
+  adults.push(<MenuItem value={i} key={i}>{i}</MenuItem>);
+  child.push(<MenuItem value={i} key={i}>{i}</MenuItem>);
 }
 class Flights extends Component {
   state = {
-    sourceIndex: null,
-    destIndex: 'asd',
-    adultIndex: null,
-    childIndex: null,
     open: false,
-    selected: [-1],
     minDate: minDate1,
     showResults: false,
     flightData: [],
-    load: false
+    load: false,
+    source: '',
+    dest:'',
+    adult: '',
+    child: '',
+    deptDate: '',
   };
   style = {
     marginRight: '25px',
   }
-  tableHide = {
-    display: 'none',
-  }
+
   userData = {
     source: null,
     dest: null,
@@ -58,29 +74,13 @@ class Flights extends Component {
     load: false
   }
 
-  handleChangeForSource = (event, index, value) => {
-    this.setState({ sourceIndex: value });
-    this.userData.source = event.target.innerHTML;
-  }
-  handleChangeForDest = (event, index, value) => {
-    this.userData.dest = event.target.innerHTML;
-    this.setState({ destIndex: value });
-  }
-  fillAdults = (event, index, value) => {
-    this.userData.adult = event.target.innerHTML;
-    this.setState({ adultIndex: value });
-  };
-  fillChilderens = (event, index, value) => {
-    this.userData.child = event.target.innerHTML;
-    this.setState({ childIndex: value });
-  };
   date = (event, date) => {
-    this.userData.deptDate = moment(date).format('YYYYMMDD');
+    this.setState({deptDate : moment(date).format('YYYYMMDD')});
   }
 
   submit = () => {
-    if (this.userData.source === null || this.userData.dest === null || this.userData.adult === null ||
-      this.userData.child === null || this.userData.deptDate === null) {
+    if (this.state.source === null || this.state.dest === null || this.state.adult === null ||
+      this.state.child === null || this.state.deptDate === null || this.state.source === this.state.dest) {
       this.setState({ open: true });
     }
     else {
@@ -94,12 +94,12 @@ class Flights extends Component {
   moment = (d) => {
     console.log(d);
   }
+  handleChange = event => {
+    console.log(event);
+    this.setState({ [event.target.name]: event.target.value });
+  };
   render() {
-    const { sourceIndex } = this.state;
-    const { destIndex } = this.state;
-    const { adultIndex } = this.state;
-    const { childIndex } = this.state;
-    const night = sourceIndex === destIndex && sourceIndex !== null;
+    const { classes } = this.props;
     const actions = [
       <FlatButton
         label="Discard"
@@ -109,46 +109,68 @@ class Flights extends Component {
     ];
     return (
       <div>
-        <SelectField
-          floatingLabelText="Source"
-          value={sourceIndex}
-          hintText="From"
-          style={this.style}
-          onChange={this.handleChangeForSource}
-        >
-          {items}
-        </SelectField>
-        <SelectField
-          floatingLabelText="Destination"
-          hintText="To"
-          value={destIndex}
-          style={this.style}
-          onChange={this.handleChangeForDest}
-          errorText={night && 'Source and destination should be different'}
-          errorStyle={{ color: 'orange' }}
-        >
-          {items1}
-        </SelectField>
-        <SelectField
-          floatingLabelText="Adults"
-          value={adultIndex}
-          hintText="2"
-          style={this.style}
-          onChange={this.fillAdults}
-          maxHeight={200}
-        >
-          {adults}
-        </SelectField>
-        <SelectField
-          floatingLabelText="Childerns"
-          value={childIndex}
-          hintText="1"
-          style={this.style}
-          onChange={this.fillChilderens}
-          maxHeight={200}
-        >
-          {adults}
-        </SelectField>
+       <form className={classes.root} autoComplete="off">
+        <FormControl required className={classes.formControl}>
+          <InputLabel htmlFor="source-required">Source</InputLabel>
+          <Select
+            value={this.state.source}
+            onChange={this.handleChange}
+            name="source"
+            inputProps={{
+              id: 'source-required',
+            }}
+            className={classes.selectEmpty}
+          >
+            {source}
+          </Select>
+          <FormHelperText>Required</FormHelperText>
+        </FormControl>
+        <FormControl required className={classes.formControl}>
+          <InputLabel htmlFor="destination-required">Destination</InputLabel>
+          <Select
+            value={this.state.dest}
+            onChange={this.handleChange}
+            name="dest"
+            inputProps={{
+              id: 'destination-required',
+            }}
+            className={classes.selectEmpty}
+          >
+            {destination}
+          </Select>
+          <FormHelperText>Required</FormHelperText>
+        </FormControl>
+        <FormControl required className={classes.formControl}>
+          <InputLabel htmlFor="Adults-required">Adults</InputLabel>
+          <Select
+            value={this.state.adult}
+            onChange={this.handleChange}
+            name="adult"
+            inputProps={{
+              id: 'adult-required',
+            }}
+            className={classes.selectEmpty}
+          >
+            {adults}
+          </Select>
+          <FormHelperText>Required</FormHelperText>
+        </FormControl>
+        <FormControl required className={classes.formControl}>
+          <InputLabel htmlFor="Children-required">Childrens</InputLabel>
+          <Select
+            value={this.state.child}
+            onChange={this.handleChange}
+            name="child"
+            inputProps={{
+              id: 'children-required',
+            }}
+            className={classes.selectEmpty}
+          >
+            {child}
+          </Select>
+          <FormHelperText>Required</FormHelperText>
+        </FormControl>
+        </form>
         <br /><br />
         <DatePicker hintText="Departure Date"
           minDate={this.state.minDate}
@@ -163,13 +185,18 @@ class Flights extends Component {
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
-          Please fill all the fields
+          Please fill all the fields correctlly
        </Dialog>
-        {this.state.load ? <ComponentData data={this.userData} /> : null}
+        {this.state.load ? <ComponentData data={this.state} /> : null}
+        
       </div>
 
     );
   }
 }
 
-export default Flights
+Flights.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Flights);
