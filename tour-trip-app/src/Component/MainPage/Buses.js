@@ -7,6 +7,9 @@ import DatePicker from 'material-ui/DatePicker';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import BusData from '../../Services/BusData'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+
 const Stations = [];
 const minDate1 = new Date();
 
@@ -56,6 +59,9 @@ class Buses extends Component {
     }
   }
   render() {
+    const { auth } = this.props;
+    console.log(this.props)
+    if (!auth.uid) return <Redirect to='/signin' /> 
     const actions = [
       <FlatButton
         label="Discard"
@@ -99,6 +105,14 @@ class Buses extends Component {
   }
 }
 
-export default Buses
+const mapStateToProps = (state) => {
+  console.log(state.firestore);
+ return {
+   projects: state.firestore,
+   auth: state.firebase.auth
+ }
+}
+
+export default connect(mapStateToProps)(Buses);
 
 

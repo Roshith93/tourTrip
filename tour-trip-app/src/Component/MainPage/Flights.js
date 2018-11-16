@@ -12,23 +12,25 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const adults = [];
 const child = [];
 const minDate1 = new Date();
 const source = [
-            <MenuItem value={'YYZ'} key={0}><em>Toronto</em></MenuItem>,
-            <MenuItem value={'HND'} key={1}>Tokyo</MenuItem>,
-            <MenuItem value={'WAS'} key={2}>Washington, D.C.</MenuItem>,
-            <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
-            <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
+  <MenuItem value={'YYZ'} key={0}><em>Toronto</em></MenuItem>,
+  <MenuItem value={'HND'} key={1}>Tokyo</MenuItem>,
+  <MenuItem value={'WAS'} key={2}>Washington, D.C.</MenuItem>,
+  <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
+  <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
 ];
 const destination = [
-            <MenuItem value={'YYZ'} key={0}>Toronto</MenuItem>,
-            <MenuItem value={'HND'} key={1}>Tokyo</MenuItem>,
-            <MenuItem value={'WAS'} key={2}>Washington, D.C.</MenuItem>,
-            <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
-            <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
+  <MenuItem value={'YYZ'} key={0}>Toronto</MenuItem>,
+  <MenuItem value={'HND'} key={1}>Tokyo</MenuItem>,
+  <MenuItem value={'WAS'} key={2}>Washington, D.C.</MenuItem>,
+  <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
+  <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
 ];
 
 const styles = theme => ({
@@ -56,7 +58,7 @@ class Flights extends Component {
     flightData: [],
     load: false,
     source: '',
-    dest:'',
+    dest: '',
     adult: '',
     child: '',
     deptDate: '',
@@ -65,17 +67,8 @@ class Flights extends Component {
     marginRight: '25px',
   }
 
-  userData = {
-    source: null,
-    dest: null,
-    adult: null,
-    child: null,
-    deptDate: null,
-    load: false
-  }
-
   date = (event, date) => {
-    this.setState({deptDate : moment(date).format('YYYYMMDD')});
+    this.setState({ deptDate: moment(date).format('YYYYMMDD') });
   }
 
   submit = () => {
@@ -99,6 +92,9 @@ class Flights extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   render() {
+    const { auth } = this.props;
+    console.log(this.props)
+    if (!auth.uid) return <Redirect to='/signin' />
     const { classes } = this.props;
     const actions = [
       <FlatButton
@@ -109,67 +105,67 @@ class Flights extends Component {
     ];
     return (
       <div>
-       <form className={classes.root} autoComplete="off">
-        <FormControl required className={classes.formControl}>
-          <InputLabel htmlFor="source-required">Source</InputLabel>
-          <Select
-            value={this.state.source}
-            onChange={this.handleChange}
-            name="source"
-            inputProps={{
-              id: 'source-required',
-            }}
-            className={classes.selectEmpty}
-          >
-            {source}
-          </Select>
-          <FormHelperText>Required</FormHelperText>
-        </FormControl>
-        <FormControl required className={classes.formControl}>
-          <InputLabel htmlFor="destination-required">Destination</InputLabel>
-          <Select
-            value={this.state.dest}
-            onChange={this.handleChange}
-            name="dest"
-            inputProps={{
-              id: 'destination-required',
-            }}
-            className={classes.selectEmpty}
-          >
-            {destination}
-          </Select>
-          <FormHelperText>Required</FormHelperText>
-        </FormControl>
-        <FormControl required className={classes.formControl}>
-          <InputLabel htmlFor="Adults-required">Adults</InputLabel>
-          <Select
-            value={this.state.adult}
-            onChange={this.handleChange}
-            name="adult"
-            inputProps={{
-              id: 'adult-required',
-            }}
-            className={classes.selectEmpty}
-          >
-            {adults}
-          </Select>
-          <FormHelperText>Required</FormHelperText>
-        </FormControl>
-        <FormControl required className={classes.formControl}>
-          <InputLabel htmlFor="Children-required">Childrens</InputLabel>
-          <Select
-            value={this.state.child}
-            onChange={this.handleChange}
-            name="child"
-            inputProps={{
-              id: 'children-required',
-            }}
-            className={classes.selectEmpty}
-          >
-            {child}
-          </Select>
-          <FormHelperText>Required</FormHelperText>
-        </FormControl>
+        <form className={classes.root} autoComplete="off">
+          <FormControl required className={classes.formControl}>
+            <InputLabel htmlFor="source-required">Source</InputLabel>
+            <Select
+              value={this.state.source}
+              onChange={this.handleChange}
+              name="source"
+              inputProps={{
+                id: 'source-required',
+              }}
+              className={classes.selectEmpty}
+            >
+              {source}
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
+          <FormControl required className={classes.formControl}>
+            <InputLabel htmlFor="destination-required">Destination</InputLabel>
+            <Select
+              value={this.state.dest}
+              onChange={this.handleChange}
+              name="dest"
+              inputProps={{
+                id: 'destination-required',
+              }}
+              className={classes.selectEmpty}
+            >
+              {destination}
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
+          <FormControl required className={classes.formControl}>
+            <InputLabel htmlFor="Adults-required">Adults</InputLabel>
+            <Select
+              value={this.state.adult}
+              onChange={this.handleChange}
+              name="adult"
+              inputProps={{
+                id: 'adult-required',
+              }}
+              className={classes.selectEmpty}
+            >
+              {adults}
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
+          <FormControl required className={classes.formControl}>
+            <InputLabel htmlFor="Children-required">Childrens</InputLabel>
+            <Select
+              value={this.state.child}
+              onChange={this.handleChange}
+              name="child"
+              inputProps={{
+                id: 'children-required',
+              }}
+              className={classes.selectEmpty}
+            >
+              {child}
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
         </form>
         <br /><br />
         <DatePicker hintText="Departure Date"
@@ -188,7 +184,7 @@ class Flights extends Component {
           Please fill all the fields correctlly
        </Dialog>
         {this.state.load ? <ComponentData data={this.state} /> : null}
-        
+
       </div>
 
     );
@@ -199,4 +195,13 @@ Flights.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Flights);
+const mapStateToProps = (state) => {
+  console.log(state.firestore);
+  return {
+    projects: state.firestore,
+    auth: state.firebase.auth
+  }
+}
+
+
+export default connect(mapStateToProps)(withStyles(styles)(Flights));
