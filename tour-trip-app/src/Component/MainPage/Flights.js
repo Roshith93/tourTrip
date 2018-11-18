@@ -14,7 +14,7 @@ import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-
+import { StateName } from '../../IATACodes/FlightData'
 const adults = [];
 const child = [];
 const minDate1 = new Date();
@@ -32,7 +32,11 @@ const destination = [
   <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
   <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
 ];
-
+// const destination=[];
+// destination.push(StateName.map((data, i) => {
+//   return(
+//   <MenuItem value={data} key={i}><em>{data}</em></MenuItem>)
+// }))
 const styles = theme => ({
   root: {
     display: 'flex',

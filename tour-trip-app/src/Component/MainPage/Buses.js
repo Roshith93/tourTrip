@@ -39,19 +39,21 @@ class Buses extends Component {
 
   handleChangeSource = (e) => {
     this.userData.source = e.toLowerCase();
+    this.setState({load : false});
   }
 
   handleChangeDestination = (e) => {
     this.userData.destination = e.toLowerCase();
+    this.setState({load : false});
   }
 
   date = (event, date) => {
     this.userData.deptDate = moment(date).format('YYYYMMDD');
+    this.setState({load : false});
   }
 
   submit = () => {
     if (this.userData.source === null || this.userData.destination === null || this.userData.deptDate === null) {
-      console.log(this.userData)
       this.setState({ open: true })
     }
     else {

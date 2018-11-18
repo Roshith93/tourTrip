@@ -9,6 +9,7 @@ import SignIn from './Component/Auth/SignIn';
 import SignUp from './Component/Auth/SignUp';
 import MainPage from './Component/MainPage/MainPage'
 import Buses from './Component/MainPage/Buses'
+import BusBooking from './Component/Booking/BusBooking'
 
 class App extends Component {
   render() {
@@ -25,6 +26,7 @@ class App extends Component {
               <Route path="/bus" component={Buses} />
               <Route path='/signin' component={SignIn} />
               <Route path='/signup' component={SignUp} />
+              <Route path='/Booking' component={BusBooking} />
             </Switch>
           </MuiThemeProvider>
         </div>

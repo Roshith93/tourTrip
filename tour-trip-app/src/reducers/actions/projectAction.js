@@ -26,3 +26,10 @@ export const userFlightData = (project) => {
     });
   }
 };
+
+export const addBusData = (busData) => {
+  console.log(busData)
+  return (dispach, getState) =>{
+    dispach({type: 'CREATE_PROJECT', busData});
+  }
+}

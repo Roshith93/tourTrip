@@ -1,10 +1,13 @@
 import React from 'react';
 import { Card,  CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { NavigationFullscreenExit } from 'material-ui/svg-icons';
 
 const style = {
-    padding: '20px',
     textDecoration: 'none !important',
-    margin: '20px'
+    margin: '20px',
+    maxWidth: '500px',
+    display: 'flex',
+    align: 'center'
 }
 const MainPageNews = (props) =>{
     const { news } = props;

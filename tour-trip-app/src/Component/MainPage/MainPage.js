@@ -34,24 +34,7 @@ class MainPage extends Component {
     return (
       <div>
         {this.state.load ? 
-          // this.state.data.map((news, i) => {
-          //   console.log(news.title);
-          //   <Card>
-          //   <CardHeader
-          //     title={news.title}
-          //   />
-          //   <CardMedia
-          //     overlay={<CardTitle title={news.publishedAt}/>}
-          //   >
-          //     <img src={news.urlToImage} alt="" />
-          //   </CardMedia>
-          //   <CardTitle title={news.author}/>
-          //   <CardText>
-          //    {news.content}
-          // </CardText>
-          // </Card>
             <MainPageNews news={this.state.data} />
-        // })
          : 
          <div>Fetching Latest News</div> 
           }

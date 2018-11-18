@@ -17,10 +17,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addBusData } from '../reducers/actions/projectAction';
 
 function createData(id, travelsName, arrivalTime, departureTime, duration, busType, totalFare, rating) {
-  console.log(travelsName, arrivalTime, departureTime, duration, busType, totalFare, rating)
-  return { id, travelsName, arrivalTime, departureTime, duration, busType, totalFare, rating};
+  return { id, travelsName, arrivalTime, departureTime, duration, busType, totalFare, rating };
 }
 
 function desc(a, b, orderBy) {
@@ -62,7 +64,7 @@ class EnhancedTableHead extends React.Component {
   };
 
   render() {
-    const { order, orderBy} = this.props;
+    const { order, orderBy } = this.props;
 
     return (
       <TableHead>
@@ -191,7 +193,8 @@ const styles = theme => ({
     overflowX: 'auto',
   },
 });
-
+let f = [];
+let fullData = [];
 class BusDataTable extends React.Component {
 
   state = {
@@ -202,17 +205,27 @@ class BusDataTable extends React.Component {
     page: 0,
     rowsPerPage: 5,
     show: false,
+    source: null,
+    destination: null,
+    rating:null,
+    departureTime:null,
+    busImageURL: null,
+    duration: null,
+    arrivalTime: null,
+    fare: null,
+    busType: null,
+    seats: null,
+    travelsName: null,
+    serviceName:null,
+    serviceId: null,
+    load: false,
   };
   componentDidMount() {
-    console.log(this.props)
-    let f =[];
-    this.props.bus.map((d, i) =>
-     {
-       f.push(createData(i, d.TravelsName, d.ArrivalTime, d.DepartureTime, d.duration, d.BusType, 
+    this.props.bus.map((d, i) => {
+      f.push(createData(i, d.TravelsName, d.ArrivalTime, d.DepartureTime, d.duration, d.BusType,
         d.fare.totalbasefare, d.rating));
-     }
+    }
     );
-
     this.setState({
       data: f,
     })
@@ -221,16 +234,35 @@ class BusDataTable extends React.Component {
   handleRequestSort = (event, property) => {
     const orderBy = property;
     let order = 'desc';
-
     if (this.state.orderBy === property && this.state.order === 'desc') {
       order = 'asc';
     }
-
     this.setState({ order, orderBy });
   };
 
   handleClick = (event, id) => {
-    console.log(event, id)
+    const { bus } = this.props;
+    console.log("props ", this.props);
+    console.log("bus data ", bus[id]);
+    this.setState({
+      source: bus[id].origin,
+      destination: bus[id].destination,
+      rating: bus[id].rating,
+      departureTime: bus[id].DepartureTime,
+      busImageURL: bus[id].busImageURL[0],
+      duration: bus[id].duration,
+      arrivalTime: bus[id].ArrivalTime,
+      fare: bus[id].fare.totalfare,
+      busType: bus[id].BusType,
+      seats: bus[id].RouteSeatTypeDetail.list[0].SeatsAvailable,
+      travelsName: bus[id].TravelsName,
+      serviceName: bus[id].ServiceName,
+      serviceId: bus[id].ServiceID,
+
+    });
+    console.log(this.props);
+    this.props.addBusData(this.state);
+    this.setState({load: true});
   };
 
   handleChangePage = (event, page) => {
@@ -244,17 +276,16 @@ class BusDataTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    console.log(this.props)
 
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    const { data, order, orderBy, selected, rowsPerPage, page, load } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
+    if(load === true) return(<Redirect to='/Booking'/>)
     return (
       <div>
         {this.state.show ?
 
-          <Paper className={classes.root}>
+          <Paper className={classes.root} zDepth={3}>
             <EnhancedTableToolbar numSelected={selected.length} />
             <div className={classes.tableWrapper}>
               <Table className={classes.table} aria-labelledby="tableTitle">
@@ -329,4 +360,10 @@ BusDataTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BusDataTable);
+const mapDispachToProps = () => {
+
+  return {
+    addBusData: (data) => addBusData(data)
+  }
+}
+export default connect(null, mapDispachToProps)(withStyles(styles)(BusDataTable));
