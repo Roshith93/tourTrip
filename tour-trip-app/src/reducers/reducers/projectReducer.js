@@ -1,4 +1,6 @@
-const initState = {}
+const initState = {
+  busData:null
+}
 
 const projectReducer = (state = initState, action) => {
   switch (action.type) {
@@ -9,12 +11,14 @@ const projectReducer = (state = initState, action) => {
       console.log('create project error ' + action.err.message);
       return state;
     case 'CREATE_PROJECT':
-      console.log('created project ' + action.busData);
-      return state;
+      console.log('created project ');
+      return {
+        ...state,
+        busData : action.busData,
+      }
     default:
       return state;
   }
-  return state;
 };
 
 export default projectReducer; 

@@ -244,23 +244,20 @@ class BusDataTable extends React.Component {
     const { bus } = this.props;
     console.log("props ", this.props);
     console.log("bus data ", bus[id]);
-    this.setState({
-      source: bus[id].origin,
-      destination: bus[id].destination,
-      rating: bus[id].rating,
-      departureTime: bus[id].DepartureTime,
-      busImageURL: bus[id].busImageURL[0],
-      duration: bus[id].duration,
-      arrivalTime: bus[id].ArrivalTime,
-      fare: bus[id].fare.totalfare,
-      busType: bus[id].BusType,
-      seats: bus[id].RouteSeatTypeDetail.list[0].SeatsAvailable,
-      travelsName: bus[id].TravelsName,
-      serviceName: bus[id].ServiceName,
-      serviceId: bus[id].ServiceID,
-
-    });
-    console.log(this.props);
+    this.state.source= bus[id].origin,
+    this.state.destination= bus[id].destination,
+    this.state.rating= bus[id].rating,
+    this.state.departureTime= bus[id].DepartureTime,
+    this.state.busImageURL= bus[id].busImageURL[0],
+    this.state.duration= bus[id].duration,
+    this.state.arrivalTime= bus[id].ArrivalTime,
+    this.state.fare= bus[id].fare.totalfare,
+    this.state.busType= bus[id].BusType,
+    this.state.seats= bus[id].RouteSeatTypeDetail.list[0].SeatsAvailable,
+    this.state.travelsName= bus[id].TravelsName,
+    this.state.serviceName= bus[id].ServiceName,
+    this.state.serviceId= bus[id].ServiceID,
+    console.log(this.state);
     this.props.addBusData(this.state);
     this.setState({load: true});
   };
@@ -285,7 +282,7 @@ class BusDataTable extends React.Component {
       <div>
         {this.state.show ?
 
-          <Paper className={classes.root} zDepth={3}>
+          <Paper className={classes.root}>
             <EnhancedTableToolbar numSelected={selected.length} />
             <div className={classes.tableWrapper}>
               <Table className={classes.table} aria-labelledby="tableTitle">
@@ -360,10 +357,10 @@ BusDataTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapDispachToProps = () => {
+const mapDispachToProps = (dispatch) => {
 
   return {
-    addBusData: (data) => addBusData(data)
+    addBusData: (data) => dispatch(addBusData(data))
   }
 }
 export default connect(null, mapDispachToProps)(withStyles(styles)(BusDataTable));

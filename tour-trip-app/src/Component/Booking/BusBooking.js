@@ -1,72 +1,81 @@
 import React, { Component } from 'react'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import Toggle from 'material-ui/Toggle';
+import { Card, CardHeader } from 'material-ui/Card';
 import images from '../../images/dummy.png'
 import restaurant from '../../images/6.jpg'
-import Paper from 'material-ui/Paper';
 import { connect } from 'react-redux';
 
+let URL = restaurant;
 class BusBooking extends Component {
     state = {
-        expanded: false,
-    };
-    style = {
-        height: '10px'
+        value: 1,
     }
-    handleExpandChange = (expanded) => {
-        this.setState({ expanded: expanded });
-    };
-
-    handleToggle = (event, toggle) => {
-        this.setState({ expanded: toggle });
-    };
-
-    handleExpand = () => {
-        this.setState({ expanded: true });
-    };
-
-    handleReduce = () => {
-        this.setState({ expanded: false });
-    };
+    increment = () => {
+        let value = this.state.value;
+        if (value < 3)
+            value = value + 1;
+        console.log(this.state);
+        this.setState({ value: value });
+    }
+    decrement = () => {
+        let value = this.state.value;
+        if (value > 1)
+            value--;
+        this.setState({ value: value-- });
+    }
     render() {
-
+        const { busData, userProfile } = this.props;
+        if(busData.busImageURL !== undefined)
+        URL = busData.busImageURL;
+        console.log(busData)
         return (
-        <div className="container">
-            <Paper zDepth={5}  rounded={false}>
-                <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-                    <CardHeader
-                        title="User Name"
-                        subtitle="Email"
-                        avatar={images}
-                    />
-                    <CardMedia
-                        overlay={<CardTitle title="Bus Name" subtitle="" />}
-                    >
-                        <img style={{height: '500px'}} src={restaurant} alt="" />
-                    </CardMedia>
-                    <CardTitle title="Card title" subtitle="Card subtitle"  />
-                    <CardText >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                        Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                        Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    </CardText>
-                    <CardActions>
-                        <FlatButton label="Expand" onClick={this.handleExpand} />
-                        <FlatButton label="Reduce" onClick={this.handleReduce} />
-                    </CardActions>
-                </Card>
-            </Paper>
-        </div>
+            <div className="row container" >
+                <div className="col s12 m12">
+                    <div className="card-panel ">
+                        <Card>
+                            <CardHeader
+                                title={userProfile.profile.firstName + " " + userProfile.profile.lastName}
+                                subtitle={userProfile.auth.email}
+                                avatar={images}
+                            />
+                        </Card>
+                        <div className="card horizontal">
+                            <div className="card-image hoverable" style={{ width: '300px', height: '350px', marginLeft: '50px', marginTop: '50px' }}>
+                                <img src={URL} style={{ width: '300px', height: '350px' }} />
+                            </div>
+                            <div className="card-stacked">
+                                <div className="card-content hoverable" style={{ marginLeft: '50px' }}>
+                                    <pre><h5><b>Service Id :    {busData.serviceId}</b></h5></pre>
+                                    <pre>Source             :       {busData.source}</pre>
+                                    <pre>Destination        :       {busData.destination}</pre>
+                                    <pre>travelsName        :       {busData.travelsName}</pre>
+                                    <pre>serviceName        :       {busData.serviceName}</pre>
+                                    <pre>arrivalTime        :       {busData.arrivalTime}</pre>
+                                    <pre>departureTime      :       {busData.departureTime}</pre>
+                                    <pre>busType            :       {busData.busType}</pre>
+                                    <pre>seats              :       {busData.seats}</pre>
+                                    <pre>Fare               :       {busData.fare}</pre>
+                                    <pre>Total Passengers   :   <button className="btn" onClick={this.increment}>+</button> {this.state.value} <button className="btn" onClick={this.decrement}>-</button></pre>
+                                    <pre>___________________________________________
+    
+                                    </pre>
+                                    <pre>Total Fair         :       {busData.fare * this.state.value}   </pre>
+                                    <button className="btn waves-effect waves-light" type="submit" name="action">Submit
+                                        <i className="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         )
     }
 }
-
 const mapStateToProps = (state) => {
     console.log(state);
     return {
-        project: state
+        busData: state.project.busData,
+        userProfile: state.firebase,
     }
 }
 export default connect(mapStateToProps)(BusBooking);
