@@ -277,7 +277,7 @@ class BusDataTable extends React.Component {
     const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page, load } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-    if(load === true) return(<Redirect to='/Booking'/>)
+    if(load === true) return(<Redirect to='/busBooking'/>)
     return (
       <div>
         {this.state.show ?
