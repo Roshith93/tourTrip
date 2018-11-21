@@ -17,6 +17,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import { addFlightData } from '../reducers/actions/projectAction';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
+let fullFlightData = [];
 function createData(id, airline, arrtime, deptime, duration, totalFare) {
     console.log(airline, arrtime, deptime, duration, totalFare)
     return { id, airline, arrtime, deptime, duration, totalFare };
@@ -200,18 +205,36 @@ class FlightDataTable extends React.Component {
         page: 0,
         rowsPerPage: 5,
         show: false,
+        load: false,
     };
+    bookingData = {
+        airline: '',
+        arrtime: '',
+        depterminal: '',
+        deptime: '',
+        duration: '',
+        fare: '',
+        flightcode: '',
+        stops: '',
+        splitduration: '',
+        source: '',
+        Destination: '',
+        passangers: '',
+        childbasefare: '',
+        adultbasefare: ''
+    }
     componentDidMount() {
         console.log(this.props)
-        let f = [];
+        let flight = [];
         this.props.flight.map((d, i) => {
-            f.push(createData(i, d.airline, d.arrtime, d.deptime, d.duration,
+            fullFlightData.push(d);
+            flight.push(createData(i, d.airline, d.arrtime, d.deptime, d.duration,
                 d.fare.totalbasefare));
         }
         );
 
         this.setState({
-            data: f,
+            data: flight,
         })
         this.setState({ show: true });
     }
@@ -225,9 +248,26 @@ class FlightDataTable extends React.Component {
 
         this.setState({ order, orderBy });
     };
-
     handleClick = (event, id) => {
-        console.log(event, id)
+        console.log(this.props.userData);
+        const { userData } = this.props;
+        let data = fullFlightData[id];
+        this.bookingData.airline = data.airline;
+        this.bookingData.arrtime = data.arrtime;
+        this.bookingData.depterminal = data.depterminal;
+        this.bookingData.deptime = data.deptime;
+        this.bookingData.duration = data.duration;
+        this.bookingData.flightcode = data.flightcode;
+        this.bookingData.stops = data.stops;
+        this.bookingData.splitduration = data.splitduration;
+        this.bookingData.source = userData.source;
+        this.bookingData.Destination = userData.dest;
+        this.bookingData.passangers = userData.adult + userData.child;
+        this.bookingData.childbasefare = data.fare.childbasefare;
+        this.bookingData.adultbasefare = data.fare.adultbasefare;
+        console.log(this.bookingData);
+        this.props.addFlightData(this.bookingData);
+        this.setState({ load: true });
     };
 
     handleChangePage = (event, page) => {
@@ -246,7 +286,7 @@ class FlightDataTable extends React.Component {
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
+        if (this.state.load === true) return (<Redirect to="/flightBooking" />)
         return (
             <div>
                 {this.state.show ?
@@ -324,4 +364,10 @@ FlightDataTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(FlightDataTable);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addFlightData: (addData) => dispatch(addFlightData(addData))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(FlightDataTable));

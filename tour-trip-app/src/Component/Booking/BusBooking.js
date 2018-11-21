@@ -3,6 +3,7 @@ import { Card, CardHeader } from 'material-ui/Card';
 import images from '../../images/dummy.png'
 import restaurant from '../../images/6.jpg'
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 let URL = restaurant;
 class BusBooking extends Component {
@@ -23,21 +24,25 @@ class BusBooking extends Component {
         this.setState({ value: value-- });
     }
     render() {
-        const { busData, userProfile } = this.props;
-        if(busData.busImageURL !== undefined)
-        URL = busData.busImageURL;
+        const { busData, userProfile, auth } = this.props;
+
+        if (busData.busImageURL !== undefined)
+            URL = busData.busImageURL;
         console.log(busData)
+        if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="row container" >
                 <div className="col s12 m12">
                     <div className="card-panel ">
-                        <Card>
-                            <CardHeader
-                                title={userProfile.profile.firstName + " " + userProfile.profile.lastName}
-                                subtitle={userProfile.auth.email}
-                                avatar={images}
-                            />
-                        </Card>
+                        <div className="hoverable">
+                            <Card>
+                                <CardHeader
+                                    title={userProfile.profile.firstName + " " + userProfile.profile.lastName}
+                                    subtitle={userProfile.auth.email}
+                                    avatar={images}
+                                />
+                            </Card>
+                        </div>
                         <div className="card horizontal">
                             <div className="card-image hoverable" style={{ width: '300px', height: '350px', marginLeft: '50px', marginTop: '50px' }}>
                                 <img src={URL} style={{ width: '300px', height: '350px' }} />
@@ -56,7 +61,7 @@ class BusBooking extends Component {
                                     <pre>Fare               :       {busData.fare}</pre>
                                     <pre>Total Passengers   :   <button className="btn" onClick={this.increment}>+</button> {this.state.value} <button className="btn" onClick={this.decrement}>-</button></pre>
                                     <pre>___________________________________________
-    
+
                                     </pre>
                                     <pre>Total Fair         :       {busData.fare * this.state.value}   </pre>
                                     <button className="btn waves-effect waves-light" type="submit" name="action">Submit
@@ -76,6 +81,7 @@ const mapStateToProps = (state) => {
     return {
         busData: state.project.busData,
         userProfile: state.firebase,
+        auth: state.firebase.auth
     }
 }
 export default connect(mapStateToProps)(BusBooking);

@@ -1,5 +1,6 @@
 const initState = {
-  busData:null
+  busData: null,
+  flightData: null,
 }
 
 const projectReducer = (state = initState, action) => {
@@ -10,11 +11,17 @@ const projectReducer = (state = initState, action) => {
     case 'CREATE_PROJECT_ERROR':
       console.log('create project error ' + action.err.message);
       return state;
-    case 'CREATE_PROJECT':
-      console.log('created project ');
+    case 'ADD_BUS_DATA':
+      console.log('added bus data');
       return {
         ...state,
-        busData : action.busData,
+        busData: action.busData,
+      }
+    case 'ADD_FLIGHT_DATA':
+      console.log('added flight data ');
+      return {
+        ...state,
+        flightData: action.flightData,
       }
     default:
       return state;

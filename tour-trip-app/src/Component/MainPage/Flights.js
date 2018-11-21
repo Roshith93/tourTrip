@@ -65,7 +65,7 @@ class Flights extends Component {
     dest: '',
     adult: '',
     child: '',
-    deptDate: '',
+    deptDate: null,
   };
   style = {
     marginRight: '25px',
@@ -76,8 +76,8 @@ class Flights extends Component {
   }
 
   submit = () => {
-    if (this.state.source === null || this.state.dest === null || this.state.adult === null ||
-      this.state.child === null || this.state.deptDate === null || this.state.source === this.state.dest) {
+    if (this.state.source === '' || this.state.dest === '' || this.state.adult === '' ||
+      this.state.child === '' || this.state.deptDate === null || this.state.source === this.state.dest) {
       this.setState({ open: true });
     }
     else {

@@ -53,7 +53,7 @@ class ComponentData extends Component {
         return (
             <div>
                 {this.state.loaded ?
-                    <FlightDataTable flight={flights}/>
+                    <FlightDataTable flight={flights} userData={this.props.data}/>
                        
                     : <div> Still Loading...</div>}
                      <Dialog
