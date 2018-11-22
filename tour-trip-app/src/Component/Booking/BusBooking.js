@@ -25,11 +25,10 @@ class BusBooking extends Component {
     }
     render() {
         const { busData, userProfile, auth } = this.props;
+        if (!auth.uid) return <Redirect to='/signin' />
 
         if (busData.busImageURL !== undefined)
             URL = busData.busImageURL;
-        console.log(busData)
-        if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="row container" >
                 <div className="col s12 m12">
