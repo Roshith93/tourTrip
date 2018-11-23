@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signOut } from'../../reducers/actions/authActions'
-import RaisedButton from 'material-ui/RaisedButton';
-import Button from '@material-ui/core/Button';
+
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -22,9 +21,8 @@ class SignIn extends Component {
         this.setState({ anchorEl: null });
         
       };
-      handleProfile = () => {
+      handleAccount = () => {
         this.setState({ anchorEl: null });
-        <Redirect to="/profile"/>
       };
     render() {
         const { anchorEl } = this.state;
@@ -46,7 +44,7 @@ class SignIn extends Component {
                                 open={Boolean(anchorEl)}
                                 onClose={this.handleClose}
                                 >
-                                <MenuItem ><Link to="/profile">Profile</Link></MenuItem>
+                                <MenuItem onClick={this.handleAccount}><Link to="/profile">Profile</Link></MenuItem>
                                 <MenuItem onClick={this.handleAccount}>My account</MenuItem>
                                 <MenuItem onClick={ this.props.signOut  }>Logout</MenuItem>
                             </Menu>    

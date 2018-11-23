@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card,  CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import { NavigationFullscreenExit } from 'material-ui/svg-icons';
 
 const style = {
     textDecoration: 'none !important',
@@ -13,7 +12,6 @@ const MainPageNews = (props) =>{
     const { news } = props;
     return (
         news.map((news, i) => {
-            console.log(news);
             return(
             <a  target="_blank" href={news.url}>
             <Card key={i} style={style}>
