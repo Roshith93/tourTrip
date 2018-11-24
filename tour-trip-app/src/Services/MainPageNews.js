@@ -17,7 +17,7 @@ const MainPageNews = (props) =>{
             <Card key={i} style={style}>
             <CardHeader
               title={news.title}
-              subtitle="title"
+              subtitle="title" 
             />
             <CardMedia
               overlay={<CardTitle title="Created At" subtitle={news.publishedAt}/>}
