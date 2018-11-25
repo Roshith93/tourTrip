@@ -39,3 +39,9 @@ export const addFlightData = (flightData) => {
     dispatch({ type: 'ADD_FLIGHT_DATA', flightData });
   }
 }
+
+export const addTrainData = (trainData) => {
+  return (dispatch) => {
+    dispatch({ type: 'ADDING_TRAIN_DATA', trainData });
+  }
+}

@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class TrainBooking extends Component {
     render(){
+        const { trainData, auth } = this.props;
+        console.log(trainData); 
+        if (!auth.uid) return (<Redirect to='/signin' />)
         return(
             <div>sadasdsadsa</div>
         )
     }
 }
 
-export default TrainBooking;
+const mapStateToProps = (state) => {
+    return {
+        trainData: state.project.trainData,
+        auth: state.firebase.auth
+    }
+}
+export default connect(mapStateToProps)(TrainBooking);

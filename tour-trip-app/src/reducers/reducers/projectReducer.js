@@ -1,6 +1,7 @@
 const initState = {
   busData: null,
   flightData: null,
+  trainData: null,
 }
 
 const projectReducer = (state = initState, action) => {
@@ -23,6 +24,12 @@ const projectReducer = (state = initState, action) => {
         ...state,
         flightData: action.flightData,
       }
+    case 'ADDING_TRAIN_DATA':
+    console.log('added train data');
+    return {
+      ...state,
+      trainData: action.trainData,
+    }  
     default:
       return state;
   }

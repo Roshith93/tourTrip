@@ -14,6 +14,8 @@ import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Chip from '@material-ui/core/Chip';
+
 
 const minDate1 = new Date();
 const source = [
@@ -60,6 +62,7 @@ class Trains extends Component {
   }
 
   date = (event, date) => {
+    this.setState({ load: false })
     this.setState({ deptDate: moment(date).format('DD-MM-YYYY') });
   }
 
@@ -81,6 +84,7 @@ class Trains extends Component {
   }
   handleChange = event => {
     console.log(event);
+    this.setState({ load: false })
     this.setState({ [event.target.name]: event.target.value });
   };
   render() {
@@ -137,6 +141,8 @@ class Trains extends Component {
        
         <br /><br />
         <RaisedButton label="Search Flight" primary={true} onClick={this.submit} />
+        <Chip label="M" variant="outlined" />
+ 
 
         <Dialog
           actions={actions}

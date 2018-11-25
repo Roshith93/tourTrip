@@ -123,5 +123,5 @@ const mapStateToProps = (state) => {
         flightData: state.project.flightData,
         userProfile: state.firebase,
     }
-}
+} 
 export default connect(mapStateToProps)(FlightBooking);

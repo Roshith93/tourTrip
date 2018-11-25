@@ -12,17 +12,15 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addBusData } from '../reducers/actions/projectAction';
+import Chip from '@material-ui/core/Chip';
+import { addTrainData } from '../reducers/actions/projectAction';
 
-function createData(id, name, dest_arrival_time, src_departure_time, travel_time, number) {
-  return { id, name, dest_arrival_time, src_departure_time, travel_time, number};
+function createData(id, name, dest_arrival_time, src_departure_time, travel_time, number, available) {
+  return { id, name, dest_arrival_time, src_departure_time, travel_time, number, available};
 }
 
 function desc(a, b, orderBy) {
@@ -50,10 +48,12 @@ function getSorting(order, orderBy) {
 }
 const rows = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Train Name' },
-  { id: 'dest_arrival_time', numeric: false, disablePadding: false, label: 'Arrival Time' },
-  { id: 'src_departure_time', numeric: false, disablePadding: false, label: 'Departure Time' },
-  { id: 'travel_time', numeric: false, disablePadding: false, label: 'Duration' },
-  { id: 'number', numeric: false, disablePadding: false, label: 'Train Number' },
+  { id: 'number', numeric: false, disablePadding: true, label: 'Train Number' },
+  { id: 'dest_arrival_time', numeric: false, disablePadding: true, label: 'Arrival Time' },
+  { id: 'src_departure_time', numeric: false, disablePadding: true, label: 'Departure Time' },
+  { id: 'travel_time', numeric: false, disablePadding: true, label: 'Duration' },
+  { id: 'available', numeric: false, disablePadding: true, label: 'Train Available Days' },
+
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -176,7 +176,7 @@ const styles = theme => ({
   },
 });
 let f = [];
-let fullData = [];
+
 class TrainDataTable extends React.Component {
 
   state = {
@@ -189,23 +189,23 @@ class TrainDataTable extends React.Component {
     show: false,
     source: null,
     destination: null,
-    rating:null,
     departureTime:null,
-    busImageURL: null,
     duration: null,
     arrivalTime: null,
-    fare: null,
-    busType: null,
-    seats: null,
+    number: null,
     travelsName: null,
-    serviceName:null,
-    serviceId: null,
+    days: null,
     load: false,
   };
+  
   componentDidMount() {
     this.props.train.map((d, i) => {
-        
-      f.push(createData(i, d.name, d.dest_arrival_time, d.src_departure_time, d.travel_time, d.number));
+        let available = [];
+        for(let j = 0; j < 7; j++)
+        if(d.days[j].runs === 'Y')
+            available.push(<Chip label={d.days[j].code} key={j} variant="outlined" />)
+        f.push(createData(i, d.name, d.dest_arrival_time, d.src_departure_time, d.travel_time, d.number, available));
+        available=[];
     }
     );
     this.setState({
@@ -226,22 +226,19 @@ class TrainDataTable extends React.Component {
     const { train } = this.props;
     console.log("props ", this.props);
     console.log("bus data ", train[id]);
-    // this.state.source= bus[id].origin,
-    // this.state.destination= bus[id].destination,
-    // this.state.rating= bus[id].rating,
-    // this.state.departureTime= bus[id].DepartureTime,
-    // this.state.busImageURL= bus[id].busImageURL[0],
-    // this.state.duration= bus[id].duration,
-    // this.state.arrivalTime= bus[id].ArrivalTime,
-    // this.state.fare= bus[id].fare.totalfare,
-    // this.state.busType= bus[id].BusType,
-    // this.state.seats= bus[id].RouteSeatTypeDetail.list[0].SeatsAvailable,
-    // this.state.travelsName= bus[id].TravelsName,
-    // this.state.serviceName= bus[id].ServiceName,
-    // this.state.serviceId= bus[id].ServiceID,
-    // console.log(this.state);
-    // this.props.addBusData(this.state);
-    // this.setState({load: true});
+    const data = train[id];
+    
+    this.state.source = data.from_station.name;
+    this.state.destination= data.to_station.name;
+    this.state.departureTime= data.src_departure_time;
+    this.state.arrivalTime= data.dest_arrival_time;
+    this.state.duration= data.travel_time;
+    this.state.number= data.number;
+    this.state.travelsName= data.name;
+    this.state.days= data.days
+    console.log(this.state);
+    this.props.addTrainData(this.state);
+    this.setState({load: true});
   };
 
   handleChangePage = (event, page) => {
@@ -259,7 +256,7 @@ class TrainDataTable extends React.Component {
     const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page, load } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-    if(load === true) return(<Redirect to='/busBooking'/>)
+    if(load === true) return(<Redirect to='/trainBooking'/>)
     return (
       <div>
         {this.state.show ?
@@ -293,10 +290,11 @@ class TrainDataTable extends React.Component {
                           <TableCell component="th" scope="row" padding="none">
                             {n.name}
                           </TableCell>
+                          <TableCell numeric>{n.number}</TableCell>
                           <TableCell numeric>{n.dest_arrival_time}</TableCell>
                           <TableCell numeric>{n.src_departure_time}</TableCell>
                           <TableCell numeric>{n.travel_time}</TableCell>
-                          <TableCell numeric>{n.number}</TableCell>
+                          <TableCell numeric>{n.available}</TableCell>                          
                         </TableRow>
                       );
                     })}
@@ -337,10 +335,10 @@ TrainDataTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-// const mapDispachToProps = (dispatch) => {
+const mapDispachToProps = (dispatch) => {
 
-//   return {
-//     addBusData: (data) => dispatch(addBusData(data))
-//   }
-// }
-export default connect(null, null)(withStyles(styles)(TrainDataTable));
+  return {
+    addTrainData: (data) => dispatch(addTrainData(data))
+  }
+}
+export default connect(null, mapDispachToProps)(withStyles(styles)(TrainDataTable));
