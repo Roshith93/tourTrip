@@ -21,8 +21,8 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addBusData } from '../reducers/actions/projectAction';
 
-function createData(id, travelsName, arrivalTime, departureTime, duration, busType, totalFare, rating) {
-  return { id, travelsName, arrivalTime, departureTime, duration, busType, totalFare, rating };
+function createData(id, name, dest_arrival_time, src_departure_time, travel_time, number) {
+  return { id, name, dest_arrival_time, src_departure_time, travel_time, number};
 }
 
 function desc(a, b, orderBy) {
@@ -49,13 +49,11 @@ function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 const rows = [
-  { id: 'travelsName', numeric: false, disablePadding: true, label: 'Travels Name' },
-  { id: 'arrivalTime', numeric: false, disablePadding: false, label: 'Arrival Time' },
-  { id: 'departureTime', numeric: false, disablePadding: false, label: 'Departure Time' },
-  { id: 'duration', numeric: false, disablePadding: false, label: 'Duration' },
-  { id: 'busType', numeric: false, disablePadding: false, label: 'Bus Type' },
-  { id: 'totalFare', numeric: false, disablePadding: false, label: 'Total Fare' },
-  { id: 'rating', numeric: false, disablePadding: false, label: 'Rating' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'Train Name' },
+  { id: 'dest_arrival_time', numeric: false, disablePadding: false, label: 'Arrival Time' },
+  { id: 'src_departure_time', numeric: false, disablePadding: false, label: 'Departure Time' },
+  { id: 'travel_time', numeric: false, disablePadding: false, label: 'Duration' },
+  { id: 'number', numeric: false, disablePadding: false, label: 'Train Number' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -150,11 +148,10 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
             <Typography variant="h6" id="tableTitle">
-              Available Buses Table
+              Available Train's Table
           </Typography>
           )}
       </div>
-      <div className={classes.spacer} />
     </Toolbar>
   );
 };
@@ -180,7 +177,7 @@ const styles = theme => ({
 });
 let f = [];
 let fullData = [];
-class BusDataTable extends React.Component {
+class TrainDataTable extends React.Component {
 
   state = {
     order: 'asc',
@@ -206,9 +203,9 @@ class BusDataTable extends React.Component {
     load: false,
   };
   componentDidMount() {
-    this.props.bus.map((d, i) => {
-      f.push(createData(i, d.TravelsName, d.ArrivalTime, d.DepartureTime, d.duration, d.BusType,
-        d.fare.totalbasefare, d.rating));
+    this.props.train.map((d, i) => {
+        
+      f.push(createData(i, d.name, d.dest_arrival_time, d.src_departure_time, d.travel_time, d.number));
     }
     );
     this.setState({
@@ -226,25 +223,25 @@ class BusDataTable extends React.Component {
   };
 
   handleClick = (event, id) => {
-    const { bus } = this.props;
+    const { train } = this.props;
     console.log("props ", this.props);
-    console.log("bus data ", bus[id]);
-    this.state.source= bus[id].origin,
-    this.state.destination= bus[id].destination,
-    this.state.rating= bus[id].rating,
-    this.state.departureTime= bus[id].DepartureTime,
-    this.state.busImageURL= bus[id].busImageURL[0],
-    this.state.duration= bus[id].duration,
-    this.state.arrivalTime= bus[id].ArrivalTime,
-    this.state.fare= bus[id].fare.totalfare,
-    this.state.busType= bus[id].BusType,
-    this.state.seats= bus[id].RouteSeatTypeDetail.list[0].SeatsAvailable,
-    this.state.travelsName= bus[id].TravelsName,
-    this.state.serviceName= bus[id].ServiceName,
-    this.state.serviceId= bus[id].ServiceID,
-    console.log(this.state);
-    this.props.addBusData(this.state);
-    this.setState({load: true});
+    console.log("bus data ", train[id]);
+    // this.state.source= bus[id].origin,
+    // this.state.destination= bus[id].destination,
+    // this.state.rating= bus[id].rating,
+    // this.state.departureTime= bus[id].DepartureTime,
+    // this.state.busImageURL= bus[id].busImageURL[0],
+    // this.state.duration= bus[id].duration,
+    // this.state.arrivalTime= bus[id].ArrivalTime,
+    // this.state.fare= bus[id].fare.totalfare,
+    // this.state.busType= bus[id].BusType,
+    // this.state.seats= bus[id].RouteSeatTypeDetail.list[0].SeatsAvailable,
+    // this.state.travelsName= bus[id].TravelsName,
+    // this.state.serviceName= bus[id].ServiceName,
+    // this.state.serviceId= bus[id].ServiceID,
+    // console.log(this.state);
+    // this.props.addBusData(this.state);
+    // this.setState({load: true});
   };
 
   handleChangePage = (event, page) => {
@@ -294,20 +291,18 @@ class BusDataTable extends React.Component {
                           selected={isSelected}
                         >
                           <TableCell component="th" scope="row" padding="none">
-                            {n.travelsName}
+                            {n.name}
                           </TableCell>
-                          <TableCell numeric>{n.arrivalTime}</TableCell>
-                          <TableCell numeric>{n.departureTime}</TableCell>
-                          <TableCell numeric>{n.duration}</TableCell>
-                          <TableCell numeric>{n.busType}</TableCell>
-                          <TableCell numeric>{n.totalFare}</TableCell>
-                          <TableCell numeric>{n.rating}</TableCell>
+                          <TableCell numeric>{n.dest_arrival_time}</TableCell>
+                          <TableCell numeric>{n.src_departure_time}</TableCell>
+                          <TableCell numeric>{n.travel_time}</TableCell>
+                          <TableCell numeric>{n.number}</TableCell>
                         </TableRow>
                       );
                     })}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 49 * emptyRows }}>
-                      <TableCell colSpan={6} />
+                      <TableCell colSpan={2} />
                     </TableRow>
                   )}
                 </TableBody>
@@ -338,14 +333,14 @@ class BusDataTable extends React.Component {
   }
 }
 
-BusDataTable.propTypes = {
+TrainDataTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapDispachToProps = (dispatch) => {
+// const mapDispachToProps = (dispatch) => {
 
-  return {
-    addBusData: (data) => dispatch(addBusData(data))
-  }
-}
-export default connect(null, mapDispachToProps)(withStyles(styles)(BusDataTable));
+//   return {
+//     addBusData: (data) => dispatch(addBusData(data))
+//   }
+// }
+export default connect(null, null)(withStyles(styles)(TrainDataTable));
