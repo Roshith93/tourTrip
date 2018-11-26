@@ -1,20 +1,38 @@
 import React from 'react';
 import { Card,  CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-
-const style = {
-    textDecoration: 'none !important',
-    margin: '20px',
-    maxWidth: '500px',
+import GridList from '@material-ui/core/GridList';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+  
+const styles = theme => ({
+  root: {
     display: 'flex',
-    align: 'center'
-}
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    width: 1300,
+    minHeight: 700,
+    padding: '10px'
+  },
+  icon: {
+    color: 'rgba(255, 255, 255, 0.54)',
+  },
+});
 const MainPageNews = (props) =>{
     const { news } = props;
+    const { classes } = props;
+
     return (
-        news.map((news, i) => {
+      <div className={classes.root}>
+              <GridList cellHeight={750} className={classes.gridList}> 
+      {  news.map((news, i) => {
             return(
+              
             <a  target="_blank" href={news.url}>
-            <Card key={i} style={style}>
+            <Card key={i} >
             <CardHeader
               title={news.title}
               subtitle="title" 
@@ -30,9 +48,17 @@ const MainPageNews = (props) =>{
           </CardText>
           </Card>
           </a>
+         
             )
       })
+    }
+     </GridList>
+          </div>
     )
 }
 
-export default MainPageNews;
+MainPageNews.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(MainPageNews);
