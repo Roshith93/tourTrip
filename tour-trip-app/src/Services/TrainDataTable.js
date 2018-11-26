@@ -196,6 +196,7 @@ class TrainDataTable extends React.Component {
     travelsName: null,
     days: null,
     load: false,
+    available: []
   };
   
   componentDidMount() {
@@ -205,6 +206,7 @@ class TrainDataTable extends React.Component {
         if(d.days[j].runs === 'Y')
             available.push(<Chip label={d.days[j].code} key={j} variant="outlined" />)
         f.push(createData(i, d.name, d.dest_arrival_time, d.src_departure_time, d.travel_time, d.number, available));
+        this.setState({available : available});
         available=[];
     }
     );

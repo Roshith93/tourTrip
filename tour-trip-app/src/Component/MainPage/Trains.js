@@ -58,6 +58,9 @@ const quota = [
   <MenuItem value={'LB'} key={10}><em>Lower Berth</em></MenuItem>,
 
 ];
+let age = [];
+for(let i = 0; i < 90; i++)
+age.push(<MenuItem value={i} key={i}><em>{i}</em></MenuItem>,);
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -83,6 +86,7 @@ class Trains extends Component {
     dest: '',
     class: '',
     quota: '',
+    age: '',
     deptDate: null,
   };
   style = {
@@ -96,7 +100,8 @@ class Trains extends Component {
 
   submit = () => {
     console.log(this.state);
-    if (this.state.source === '' || this.state.dest === '' || this.state.deptDate === null || this.state.source === this.state.dest) {
+    if (this.state.source === '' || this.state.dest === '' || this.state.class === '' || this.state.quota === ''
+      || this.state.deptDate === null || this.state.source === this.state.dest) {
       this.setState({ open: true });
     }
     else {
@@ -161,6 +166,21 @@ class Trains extends Component {
             <FormHelperText>Required</FormHelperText>
           </FormControl>
           <FormControl required className={classes.formControl}>
+            <InputLabel htmlFor="age-required">Age</InputLabel>
+            <Select
+              value={this.state.age}
+              onChange={this.handleChange}
+              name="age"
+              inputProps={{
+                id: 'age-required',
+              }}
+              className={classes.selectEmpty}
+            >
+              {age}
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
+          <FormControl required className={classes.formControl}>
             <InputLabel htmlFor="class-required">Class</InputLabel>
             <Select
               value={this.state.class}
@@ -190,6 +210,7 @@ class Trains extends Component {
             </Select>
             <FormHelperText>Required</FormHelperText>
           </FormControl>
+
           <DatePicker hintText="Departure Date"
           minDate={this.state.minDate}
           onChange={this.date}
@@ -198,10 +219,7 @@ class Trains extends Component {
         <br /><br />
        
         <br /><br />
-        <RaisedButton label="Search Flight" primary={true} onClick={this.submit} />
-        <Chip label="M" variant="outlined" />
- 
-
+        <RaisedButton label="Search Flight" primary={true} onClick={this.submit} /> 
         <Dialog
           actions={actions}
           modal={false}

@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import  TrainDataTable from './TrainDataTable';
 const base_url = "https://api.railwayapi.com";
 const key = "pxx781kxnd";
-let trains =[];
+let trains = [];
 class TrainData extends Component {
     state = {
         loaded: false,
@@ -29,6 +29,7 @@ class TrainData extends Component {
             else
                 this.setState({ loaded: false })
         })
+        
     }
     componentWillUnmount(){}
     render(){
