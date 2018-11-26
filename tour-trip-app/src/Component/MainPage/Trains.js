@@ -32,6 +32,32 @@ const destination = [
   <MenuItem value={'PTA'} key={3}>Patiala</MenuItem>,
   <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
 ];
+
+const trainClass = [
+  <MenuItem value={'1A'} key={0}><em>First class Air-Conditioned </em></MenuItem>,
+  <MenuItem value={'2A'} key={1}><em>AC 2-tier sleeper </em></MenuItem>,
+  <MenuItem value={'FC'} key={2}><em>First class  </em></MenuItem>,
+  <MenuItem value={'3A'} key={3}><em>AC 3 Tier </em></MenuItem>,
+  <MenuItem value={'3E'} key={4}><em>AC 3 Tier Economy </em></MenuItem>,
+  <MenuItem value={'CC'} key={5}><em>AC chair Car </em></MenuItem>,
+  <MenuItem value={'SL'} key={6}><em>Sleeper Class </em></MenuItem>,
+  <MenuItem value={'2S'} key={7}><em>Second Sitting </em></MenuItem>
+];
+
+const quota = [
+  <MenuItem value={'GN'} key={0}><em>General Quota</em></MenuItem>,
+  <MenuItem value={'LN'} key={1}><em>Ladies Quota</em></MenuItem>,
+  <MenuItem value={'DF'} key={2}><em>Defence Quota</em></MenuItem>,
+  <MenuItem value={'PH'} key={3}><em>Parliament house Quota</em></MenuItem>,
+  <MenuItem value={'FT'} key={4}><em>Foreign Tourist Quota</em></MenuItem>,
+  <MenuItem value={'DP'} key={5}><em>Duty Pass Quota</em></MenuItem>,
+  <MenuItem value={'tq'} key={6}><em>Tatkal Quota</em></MenuItem>,
+  <MenuItem value={'PT'} key={7}><em>Premium Tatkal Quota</em></MenuItem>,
+  <MenuItem value={'GNRS'} key={8}><em>General Quota Road Side</em></MenuItem>,
+  <MenuItem value={'Rc'} key={9}><em>Reservation Against Cancellation</em></MenuItem>,
+  <MenuItem value={'LB'} key={10}><em>Lower Berth</em></MenuItem>,
+
+];
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -55,6 +81,8 @@ class Trains extends Component {
     load: false,
     source: '',
     dest: '',
+    class: '',
+    quota: '',
     deptDate: null,
   };
   style = {
@@ -129,6 +157,36 @@ class Trains extends Component {
               className={classes.selectEmpty}
             >
               {destination}
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
+          <FormControl required className={classes.formControl}>
+            <InputLabel htmlFor="class-required">Class</InputLabel>
+            <Select
+              value={this.state.class}
+              onChange={this.handleChange}
+              name="class"
+              inputProps={{
+                id: 'class-required',
+              }}
+              className={classes.selectEmpty}
+            >
+              {trainClass}
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
+          <FormControl required className={classes.formControl}>
+            <InputLabel htmlFor="quota-required">Quota</InputLabel>
+            <Select
+              value={this.state.quota}
+              onChange={this.handleChange}
+              name="quota"
+              inputProps={{
+                id: 'quota-required',
+              }}
+              className={classes.selectEmpty}
+            >
+              {quota}
             </Select>
             <FormHelperText>Required</FormHelperText>
           </FormControl>
