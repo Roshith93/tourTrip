@@ -44,7 +44,7 @@ class SignIn extends Component {
                                 onClose={this.handleClose}
                                 >
                                 <MenuItem onClick={this.handleAccount}><Link to="/profile">Profile</Link></MenuItem>
-                                <MenuItem onClick={this.handleAccount}>My account</MenuItem>
+                                <MenuItem onClick={this.handleAccount}><Link to="/myAccount">My account</Link></MenuItem>
                                 <MenuItem onClick={ this.props.signOut  }>Logout</MenuItem>
                             </Menu>    
                     </li>
