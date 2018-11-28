@@ -221,7 +221,11 @@ class FlightDataTable extends React.Component {
         Destination: '',
         passangers: '',
         childbasefare: '',
-        adultbasefare: ''
+        adultbasefare: '',
+        sourceIATA: '',
+        destinationIATA: '',
+        children: '',
+        adult: '',
     }
     componentDidMount() {
         console.log(this.props)
@@ -265,6 +269,10 @@ class FlightDataTable extends React.Component {
         this.bookingData.passangers = userData.adult + userData.child;
         this.bookingData.childbasefare = data.fare.childbasefare;
         this.bookingData.adultbasefare = data.fare.adultbasefare;
+        this.bookingData.sourceIATA = userData.sourceIATA;
+        this.bookingData.destinationIATA = userData.destinationIATA;
+        this.bookingData.children = userData.child;
+        this.bookingData.adult = userData.adult;
         console.log(this.bookingData);
         this.props.addFlightData(this.bookingData);
         this.setState({ load: true });

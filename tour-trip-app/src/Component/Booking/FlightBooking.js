@@ -11,6 +11,7 @@ class FlightBooking extends Component {
     render() {
         const { flightData, userProfile } = this.props;
         if (!userProfile.auth.uid) return (<Redirect to='/signin' />)
+        console.log(flightData);
         return (
             <div className="container">
                 <div className=" col m10 s12">
@@ -31,7 +32,7 @@ class FlightBooking extends Component {
                                     <List>
                                         <ListItem
                                             primaryText="Source"
-                                            secondaryText={flightData.source}
+                                            secondaryText={`${flightData.source}(${flightData.sourceIATA})`}
                                         />
                                         <ListItem
                                             primaryText="Airline"
@@ -60,7 +61,7 @@ class FlightBooking extends Component {
                                     <List>
                                         <ListItem
                                             primaryText="Destination"
-                                            secondaryText={flightData.Destination}
+                                            secondaryText={`${flightData.Destination}(${flightData.destinationIATA})`}
                                         />
                                         <ListItem
                                             primaryText="Flight Code"
@@ -77,13 +78,13 @@ class FlightBooking extends Component {
                                         <ListItem
                                             primaryText="Total Fare"
                                             initiallyOpen={false}
-                                            secondaryText={flightData.childbasefare + flightData.adultbasefare}
+                                            secondaryText={flightData.childbasefare * flightData.children + flightData.adultbasefare * flightData.adult}
                                             primaryTogglesNestedList={true}
                                             nestedItems={[
                                                 <ListItem
                                                     key={1}
-                                                    primaryText="Total Passangers"
-                                                    secondaryText={flightData.passangers}
+                                                    primaryText="Total Passangers(Adult+Children)"
+                                                    secondaryText={`${flightData.children} + ${flightData.adult} = ${flightData.passangers}`}
                                                     disabled={true}
 
                                                 />,

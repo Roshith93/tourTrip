@@ -61,19 +61,23 @@ class Flights extends Component {
     marginRight: '25px',
   }
   handleChangeSource = (e) => {
-    let t = code[Stations.indexOf(e)];
-    console.log(Stations.indexOf(e));
-    console.log(t);
-    this.setState({ source: t})
-    this.setState({load : false});
+    let sourceIATACode = code[Stations.indexOf(e)];
+    let upper = e.toUpperCase();
+    this.setState({ 
+      sourceIATA: sourceIATACode,
+      source: upper,
+      load : false
+    })
   }
 
   handleChangeDestination = (e) => {
-    let t = code[Stations.indexOf(e)];
-    console.log(Stations.indexOf(e));
-    console.log(t);
-    this.setState({ dest: t})
-    this.setState({load : false});
+    let destinationIATACode = code[Stations.indexOf(e)];
+    let upper = e.toUpperCase();
+    this.setState({ 
+      destinationIATA: destinationIATACode,
+      dest: upper,
+      load : false
+    })
   }
   date = (event, date) => {
     this.setState({ deptDate: moment(date).format('YYYYMMDD') });
