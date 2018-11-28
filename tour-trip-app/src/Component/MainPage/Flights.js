@@ -13,30 +13,18 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
+import { FlightStationName, code } from '../../IATACodes/FlightData';
+import AutoComplete from 'material-ui/AutoComplete';
 import { connect } from 'react-redux'
-import { StateName } from '../../IATACodes/FlightData'
 const adults = [];
 const child = [];
 const minDate1 = new Date();
-const source = [
-  <MenuItem value={'YYZ'} key={0}><em>Toronto</em></MenuItem>,
-  <MenuItem value={'HND'} key={1}>Tokyo</MenuItem>,
-  <MenuItem value={'WAS'} key={2}>Washington, D.C.</MenuItem>,
-  <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
-  <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
-];
-const destination = [
-  <MenuItem value={'YYZ'} key={0}>Toronto</MenuItem>,
-  <MenuItem value={'HND'} key={1}>Tokyo</MenuItem>,
-  <MenuItem value={'WAS'} key={2}>Washington, D.C.</MenuItem>,
-  <MenuItem value={'DXB'} key={3}>Dubai</MenuItem>,
-  <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
-];
-// const destination=[];
-// destination.push(StateName.map((data, i) => {
-//   return(
-//   <MenuItem value={data} key={i}><em>{data}</em></MenuItem>)
-// }))
+const Stations = [];
+var Bus = Object.keys(FlightStationName).map(function (key) {
+  return (
+    Stations.push(FlightStationName[key])
+  )
+});
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -61,6 +49,8 @@ class Flights extends Component {
     showResults: false,
     flightData: [],
     load: false,
+    sourceIATA: '',
+    destinationIATA: '',
     source: '',
     dest: '',
     adult: '',
@@ -70,7 +60,21 @@ class Flights extends Component {
   style = {
     marginRight: '25px',
   }
+  handleChangeSource = (e) => {
+    let t = code[Stations.indexOf(e)];
+    console.log(Stations.indexOf(e));
+    console.log(t);
+    this.setState({ source: t})
+    this.setState({load : false});
+  }
 
+  handleChangeDestination = (e) => {
+    let t = code[Stations.indexOf(e)];
+    console.log(Stations.indexOf(e));
+    console.log(t);
+    this.setState({ dest: t})
+    this.setState({load : false});
+  }
   date = (event, date) => {
     this.setState({ deptDate: moment(date).format('YYYYMMDD') });
   }
@@ -110,35 +114,26 @@ class Flights extends Component {
     return (
       <div>
         <form className={classes.root} autoComplete="off">
-          <FormControl required className={classes.formControl}>
-            <InputLabel htmlFor="source-required">Source</InputLabel>
-            <Select
-              value={this.state.source}
-              onChange={this.handleChange}
-              name="source"
-              inputProps={{
-                id: 'source-required',
-              }}
-              className={classes.selectEmpty}
-            >
-              {source}
-            </Select>
-            <FormHelperText>Required</FormHelperText>
+        <FormControl required className={classes.formControl}>
+          <AutoComplete
+            floatingLabelText="Source*"
+            filter={AutoComplete.fuzzyFilter}
+            dataSource={Stations}
+            maxSearchResults={5}
+            onNewRequest={this.handleChangeSource}
+          />
+           <FormHelperText>Required</FormHelperText>
           </FormControl>
           <FormControl required className={classes.formControl}>
-            <InputLabel htmlFor="destination-required">Destination</InputLabel>
-            <Select
-              value={this.state.dest}
-              onChange={this.handleChange}
-              name="dest"
-              inputProps={{
-                id: 'destination-required',
-              }}
-              className={classes.selectEmpty}
-            >
-              {destination}
-            </Select>
-            <FormHelperText>Required</FormHelperText>
+          <AutoComplete
+            style={this.style}
+            floatingLabelText="Destination*"
+            filter={AutoComplete.fuzzyFilter}
+            dataSource={Stations}
+            maxSearchResults={5}
+            onNewRequest={this.handleChangeDestination}
+          />
+           <FormHelperText>Required</FormHelperText>
           </FormControl>
           <FormControl required className={classes.formControl}>
             <InputLabel htmlFor="Adults-required">Adults</InputLabel>
