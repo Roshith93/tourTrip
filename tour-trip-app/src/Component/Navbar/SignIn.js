@@ -30,7 +30,6 @@ class SignIn extends Component {
                 <ul>
                     <li><Link to="/flight">Flights</Link></li>
                     <li><Link to="/train">Trains</Link></li>
-                    <li><Link to="/hotel">Hotels</Link></li>
                     <li><Link to="/bus">Buses</Link></li>
                     <li className="right">
                         <button  aria-owns={anchorEl ? 'simple-menu' : undefined}

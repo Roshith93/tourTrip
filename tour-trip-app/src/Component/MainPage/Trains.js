@@ -100,7 +100,7 @@ class Trains extends Component {
 
   submit = () => {
     console.log(this.state);
-    if (this.state.source === '' || this.state.dest === '' || this.state.class === '' || this.state.quota === ''
+    if (this.state.source === '' || this.state.dest === '' 
       || this.state.deptDate === null || this.state.source === this.state.dest) {
       this.setState({ open: true });
     }
@@ -162,51 +162,6 @@ class Trains extends Component {
               className={classes.selectEmpty}
             >
               {destination}
-            </Select>
-            <FormHelperText>Required</FormHelperText>
-          </FormControl>
-          <FormControl required className={classes.formControl}>
-            <InputLabel htmlFor="age-required">Age</InputLabel>
-            <Select
-              value={this.state.age}
-              onChange={this.handleChange}
-              name="age"
-              inputProps={{
-                id: 'age-required',
-              }}
-              className={classes.selectEmpty}
-            >
-              {age}
-            </Select>
-            <FormHelperText>Required</FormHelperText>
-          </FormControl>
-          <FormControl required className={classes.formControl}>
-            <InputLabel htmlFor="class-required">Class</InputLabel>
-            <Select
-              value={this.state.class}
-              onChange={this.handleChange}
-              name="class"
-              inputProps={{
-                id: 'class-required',
-              }}
-              className={classes.selectEmpty}
-            >
-              {trainClass}
-            </Select>
-            <FormHelperText>Required</FormHelperText>
-          </FormControl>
-          <FormControl required className={classes.formControl}>
-            <InputLabel htmlFor="quota-required">Quota</InputLabel>
-            <Select
-              value={this.state.quota}
-              onChange={this.handleChange}
-              name="quota"
-              inputProps={{
-                id: 'quota-required',
-              }}
-              className={classes.selectEmpty}
-            >
-              {quota}
             </Select>
             <FormHelperText>Required</FormHelperText>
           </FormControl>

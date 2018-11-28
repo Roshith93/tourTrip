@@ -13,6 +13,7 @@ import BusBooking from './Component/Booking/BusBooking'
 import FlightBooking from './Component/Booking/FlightBooking';
 import TrainBooking from './Component/Booking/TrainBooking';
 import Profile from './Component/MainPage/Profile';
+import MyAccount from './Component/MainPage/MyAccount';
 class App extends Component {
   render() {
     return (
@@ -24,7 +25,6 @@ class App extends Component {
               <Route exact path='/'component={MainPage} />
               <Route path='/flight' component={Flights} />
               <Route path='/train' component={Trains} />
-              <Route path='/hotel' component={Hotels} />
               <Route path="/bus" component={Buses} />
               <Route path='/signin' component={SignIn} />
               <Route path='/signup' component={SignUp} />
@@ -32,6 +32,7 @@ class App extends Component {
               <Route path='/flightBooking' component={FlightBooking} />
               <Route path='/trainBooking' component={TrainBooking} />
               <Route path='/profile' component={Profile} />
+              <Route path='/myAccount' component={MyAccount} />
             </Switch>
           </MuiThemeProvider>
         </div>
