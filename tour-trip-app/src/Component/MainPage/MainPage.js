@@ -18,24 +18,24 @@ class MainPage extends Component {
         console.log(this.state);
       })
   }
-  
+
   state = {
     data: [],
     load: false
   }
- 
+
   render() {
     const { auth } = this.props;
     console.log(this.props)
     if (!auth.uid) return <Redirect to='/signin' />
-  
+
     return (
       <div>
-        {this.state.load ? 
-            <MainPageNews news={this.state.data} />
-         : 
-         <div>Fetching Latest News</div> 
-          }
+        {this.state.load ?
+          <MainPageNews news={this.state.data} />
+          :
+          <div>Fetching Latest News</div>
+        }
       </div>
     )
   }
