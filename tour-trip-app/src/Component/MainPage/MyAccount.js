@@ -2,37 +2,48 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import SwipeableViews from 'react-swipeable-views';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
+import GridList from '@material-ui/core/GridList';
 
 function TabContainer({ children, dir }) {
-    return (
-      <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
-        {children}
-      </Typography>
-    );
-  }
-  
-  TabContainer.propTypes = {
-    children: PropTypes.node.isRequired,
-    dir: PropTypes.string.isRequired,
-  };
-  
-  const styles = theme => ({
-    root: {
-      backgroundColor: theme.palette.background.paper,
-      maxWidth: 1400,
-      minWidth: 500,
-    },
-  });
+  return (
+    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+      {children}
+    </Typography>
+  );
+}
 
-  
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+  dir: PropTypes.string.isRequired,
+};
+
+const styles = theme => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    maxWidth: 1400,
+    minWidth: 500,
+  },
+  gridList: {
+    maxWidth: 1300,
+    padding: '25px'
+  },
+  icon: {
+    color: 'rgba(255, 255, 255, 0.54)',
+  },
+});
+
+
 class MyAccount extends Component {
-    state = {
-        value: 0,
+  state = {
+    value: 0,
   };
 
   handleChange = (event, value) => {
@@ -45,7 +56,12 @@ class MyAccount extends Component {
 
   render() {
     const { classes, theme } = this.props;
-
+    const { auth, userData } = this.props;
+    let data = userData.userBusData; 
+    console.log(data);
+    let d = new Date();
+    console.log(d);
+    if (!auth.uid) return <Redirect to='/signin' />
     return (
       <div className={classes.root}>
         <Paper>
@@ -56,9 +72,9 @@ class MyAccount extends Component {
             textColor="primary"
             fullWidth
           >
-            <Tab label="Item One" />
-            <Tab label="Item Two" />
-            <Tab label="Item Three" />
+            <Tab label="Flight" />
+            <Tab label="Bus" />
+            <Tab label="Train" />
           </Tabs>
         </Paper>
         <SwipeableViews
@@ -66,19 +82,53 @@ class MyAccount extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>Item One</TabContainer>
-          <TabContainer dir={theme.direction}>Item Two</TabContainer>
-          <TabContainer dir={theme.direction}>Item Three</TabContainer>
+        <TabContainer dir={theme.direction}>
+         <GridList cellHeight={450} className={classes.gridList}>
+        {data.map((data, i) => {
+          return (
+            <div className="card-panel" key={i}> 
+              <div className="card-panel hoverable">
+                <pre><b>Service Id             :       {data.serviceId}</b></pre>
+                <pre>Source             :       {data.source}</pre>
+                <pre>Destination        :       {data.destination}</pre>
+                <pre>TravelsName        :       {data.travelsName}</pre>
+                <pre>ServiceName        :       {data.serviceName}</pre>
+                <pre>ArrivalTime        :       {data.arrivalTime}</pre>
+                <pre>DepartureTime      :       {data.departureTime}</pre>
+                <pre>BusType            :       {data.busType}</pre>
+                <pre>Seats              :       {data.seats}</pre>
+                <pre>Fare               :       {data.fare}</pre>
+                <pre>Total Passengers   :       {data.value}</pre>
+                <pre>Total Fair         :       {data.fare}   </pre>
+              </div> 
+            </div>
+          )
+        })
+        }
+      </GridList>
+      </TabContainer>
         </SwipeableViews>
 
-            </div>
-        )
-    }
+      </div>
+    )
+  }
 }
-MyAccount.propTypes = { 
+MyAccount.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
+const mapStateToProps = (state, ownProps) => {
+  console.log(state);
+  return {
+    userData: state.firestore.ordered,
+    auth: state.firebase.auth
+  }
+}
 
-export default withStyles(styles, { withTheme: true })(MyAccount);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([
+    'userBusData', 'userFlightData'
+  ])
+)(withStyles(styles, { withTheme: true })(MyAccount));
 

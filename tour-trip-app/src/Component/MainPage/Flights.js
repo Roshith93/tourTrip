@@ -115,6 +115,8 @@ class Flights extends Component {
         onClick={this.handleClose}
       />,
     ];
+    let date = new Date();
+    console.log(moment(date).format('DD-MM-YYYY'));
     return (
       <div>
         <form className={classes.root} autoComplete="off">

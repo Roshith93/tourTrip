@@ -344,7 +344,7 @@ BusDataTable.propTypes = {
 
 const mapDispachToProps = (dispatch) => {
 
-  return {
+  return { 
     addBusData: (data) => dispatch(addBusData(data))
   }
 }
