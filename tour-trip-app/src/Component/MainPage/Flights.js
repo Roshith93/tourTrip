@@ -16,6 +16,7 @@ import { Redirect } from 'react-router-dom'
 import { FlightStationName, code } from '../../IATACodes/FlightData';
 import AutoComplete from 'material-ui/AutoComplete';
 import { connect } from 'react-redux'
+
 const adults = [];
 const child = [];
 const minDate1 = new Date();
@@ -115,8 +116,6 @@ class Flights extends Component {
         onClick={this.handleClose}
       />,
     ];
-    let date = new Date();
-    console.log(moment(date).format('DD-MM-YYYY'));
     return (
       <div>
         <form className={classes.root} autoComplete="off">
@@ -189,7 +188,6 @@ class Flights extends Component {
           Please fill all the fields correctlly
        </Dialog>
         {this.state.load ? <ComponentData data={this.state} /> : null}
-
       </div>
 
     );

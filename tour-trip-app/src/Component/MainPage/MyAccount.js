@@ -9,9 +9,11 @@ import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { List, ListItem } from 'material-ui/List';
 import { Redirect } from 'react-router-dom'
 import GridList from '@material-ui/core/GridList';
-
+import FlightBookingList from './FlightBookingList';
+import BusBookingList from './BusBookingList';
 function TabContainer({ children, dir }) {
   return (
     <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
@@ -29,7 +31,7 @@ const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     maxWidth: 1400,
-    minWidth: 500,
+    minWidth: 800,
   },
   gridList: {
     maxWidth: 1300,
@@ -57,10 +59,10 @@ class MyAccount extends Component {
   render() {
     const { classes, theme } = this.props;
     const { auth, userData } = this.props;
-    let data = userData.userBusData; 
-    console.log(data);
-    let d = new Date();
-    console.log(d);
+    let busdata = userData.userBusData;
+    let flightdata = userData.userFlightData;
+    console.log(busdata);
+    console.log(flightdata);
     if (!auth.uid) return <Redirect to='/signin' />
     return (
       <div className={classes.root}>
@@ -72,8 +74,8 @@ class MyAccount extends Component {
             textColor="primary"
             fullWidth
           >
-            <Tab label="Flight" />
             <Tab label="Bus" />
+            <Tab label="Flight" />
             <Tab label="Train" />
           </Tabs>
         </Paper>
@@ -82,31 +84,13 @@ class MyAccount extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-        <TabContainer dir={theme.direction}>
-         <GridList cellHeight={450} className={classes.gridList}>
-        {data.map((data, i) => {
-          return (
-            <div className="card-panel" key={i}> 
-              <div className="card-panel hoverable">
-                <pre><b>Service Id             :       {data.serviceId}</b></pre>
-                <pre>Source             :       {data.source}</pre>
-                <pre>Destination        :       {data.destination}</pre>
-                <pre>TravelsName        :       {data.travelsName}</pre>
-                <pre>ServiceName        :       {data.serviceName}</pre>
-                <pre>ArrivalTime        :       {data.arrivalTime}</pre>
-                <pre>DepartureTime      :       {data.departureTime}</pre>
-                <pre>BusType            :       {data.busType}</pre>
-                <pre>Seats              :       {data.seats}</pre>
-                <pre>Fare               :       {data.fare}</pre>
-                <pre>Total Passengers   :       {data.value}</pre>
-                <pre>Total Fair         :       {data.fare}   </pre>
-              </div> 
-            </div>
-          )
-        })
-        }
-      </GridList>
-      </TabContainer>
+          <TabContainer dir={theme.direction}>
+            <BusBookingList busData={busdata} />
+          </TabContainer>
+
+          <TabContainer dir={theme.direction}>
+              <FlightBookingList flightData={flightdata}/>
+          </TabContainer>
         </SwipeableViews>
 
       </div>

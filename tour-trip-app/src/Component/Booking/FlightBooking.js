@@ -10,7 +10,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
 
 function TransitionLeft(props) {
-  return <Slide {...props} direction="left" />;
+    return <Slide style={{background: 'green'}} {...props} direction="left" />;
 }
 
 class FlightBooking extends Component {
@@ -38,17 +38,15 @@ class FlightBooking extends Component {
         childFare: '',
         adultFare: '',
         date: '',
+        id: '',
     }
-    handleClick = Transition => () => {
-        this.setState({ snackopen: true, Transition });
-    };
-    
     handleClose = () => {
-    this.setState({ snackopen: false });
-    };
+    this.setState({ snackopen: false,
+        load: true });
+    }
 
-    handleSubmit = () => {
-        const { flightData } = this.props;
+    handleSubmit = Transition => () => {
+        const { flightData, userProfile } = this.props;
         let date = new Date();
         this.userData.source = flightData.source;
         this.userData.sourceIATA = flightData.sourceIATA;
@@ -67,11 +65,10 @@ class FlightBooking extends Component {
         this.userData.childFare = flightData.childbasefare;
         this.userData.adultFare = flightData.adultbasefare;
         this.userData.date = moment(date).format('DD-MM-YYYY');
+        this.userData.id = userProfile.auth.uid;
         console.log(this.userData);
         this.props.userFlightData(this.userData);
-        this.setState({
-            load: true
-        });
+        this.setState({ snackopen: true, Transition });
     }
     render() {
         const { flightData, userProfile } = this.props;
@@ -158,6 +155,7 @@ class FlightBooking extends Component {
                                                     key={2}
                                                     primaryText="Child Base Fare"
                                                     secondaryText={flightData.childbasefare}
+                                                    disabled={true}
                                                 />,
                                                 <ListItem
                                                     key={3}
@@ -177,6 +175,7 @@ class FlightBooking extends Component {
                                 <Snackbar
                                     open={this.state.snackopen}
                                     onClose={this.handleClose}
+                                    style={{backgroundColor: 'green'}}
                                     TransitionComponent={this.state.Transition}
                                     ContentProps={{
                                         'aria-describedby': 'message-id',

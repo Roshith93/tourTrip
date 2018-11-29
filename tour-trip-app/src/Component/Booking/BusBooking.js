@@ -6,11 +6,20 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { userBusData } from '../../reducers/actions/projectAction';
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
+
+function TransitionLeft(props) {
+    return <Slide style={{background: 'green'}} {...props} direction="left" />;
+}
+
 let URL = restaurant;
 class BusBooking extends Component {      
     state = {
         value: 1,
         load: false,
+        snackopen: false,
+        Transition: null,
     }
     userData = {
         serviceId: '',
@@ -25,7 +34,8 @@ class BusBooking extends Component {
         fare: '',
         Total: '',
         value: '',
-        date: ''
+        date: '',
+        id: '',
     }
     increment = () => {
         let value = this.state.value;
@@ -39,9 +49,13 @@ class BusBooking extends Component {
             value--;
         this.setState({ value: value-- });
     }
-    
-    handleSubmit = () => {
-        const { busData } = this.props;
+    handleClose = () => {
+        this.setState({ snackopen: false,
+            load: true });
+    }
+
+    handleSubmit = Transition => {
+        const { busData, auth } = this.props;
         let date = new Date();
         this.userData.serviceId= busData.serviceId,
         this.userData.source= busData.source,
@@ -56,11 +70,10 @@ class BusBooking extends Component {
         this.userData.Total= busData.fare * this.state.value;
         this.userData.value = this.state.value;
         this.userData.date = moment(date).format('DD-MM-YYYY');
+        this.userData.id = auth.uid;
         console.log(this.userData);
         this.props.userBusData(this.userData);
-        this.setState({
-            load: true
-        });
+        this.setState({ snackopen: true, Transition });
     }
     render() {
         const { busData, userProfile, auth } = this.props;
@@ -102,9 +115,19 @@ class BusBooking extends Component {
 
                                     </pre>
                                     <pre>Total Fair         :       {busData.fare * this.state.value}   </pre>
-                                    <button className="btn waves-effect waves-light" type="submit" name="action" onClick={this.handleSubmit}>Submit
+                                    <button className="btn waves-effect waves-light" type="submit" name="action" onClick={this.handleSubmit(TransitionLeft)}>Submit
                                         <i className="material-icons right">send</i>
                                     </button>
+                                    <Snackbar
+                                        open={this.state.snackopen}
+                                        onClose={this.handleClose}
+                                        style={{backgroundColor: 'green'}}
+                                        TransitionComponent={this.state.Transition}
+                                        ContentProps={{
+                                            'aria-describedby': 'message-id',
+                                        }}
+                                        message={<span id="message-id">Flights added successfully</span>}
+                                    />
                                 </div>
                             </div>
                         </div>
