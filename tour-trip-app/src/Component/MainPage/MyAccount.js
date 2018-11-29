@@ -9,11 +9,11 @@ import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { List, ListItem } from 'material-ui/List';
 import { Redirect } from 'react-router-dom'
-import GridList from '@material-ui/core/GridList';
 import FlightBookingList from './FlightBookingList';
 import BusBookingList from './BusBookingList';
+import TrainBookingList from './TrainBookingList';
+
 function TabContainer({ children, dir }) {
   return (
     <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
@@ -59,10 +59,20 @@ class MyAccount extends Component {
   render() {
     const { classes, theme } = this.props;
     const { auth, userData } = this.props;
-    let busdata = userData.userBusData;
-    let flightdata = userData.userFlightData;
-    console.log(busdata);
-    console.log(flightdata);
+    let allbusdata = userData.userBusData;
+    let busdata = allbusdata && allbusdata.filter(function(data) {
+      return data.id === auth.uid
+    })
+
+    let allflightdata = userData.userFlightData;
+    let flightdata = allflightdata && allflightdata.filter(function(data) {
+      return data.id === auth.uid
+    })
+    
+    let alltraindata = userData.userTrainData;
+    let traindata = alltraindata && alltraindata.filter(function(data) {
+      return data.id === auth.uid
+    })
     if (!auth.uid) return <Redirect to='/signin' />
     return (
       <div className={classes.root}>
@@ -91,6 +101,9 @@ class MyAccount extends Component {
           <TabContainer dir={theme.direction}>
               <FlightBookingList flightData={flightdata}/>
           </TabContainer>
+          <TabContainer dir={theme.direction}>
+              <TrainBookingList trainData={traindata}/>
+          </TabContainer>
         </SwipeableViews>
 
       </div>
@@ -112,7 +125,7 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect([
-    'userBusData', 'userFlightData'
+    'userBusData', 'userFlightData', 'userTrainData'
   ])
 )(withStyles(styles, { withTheme: true })(MyAccount));
 

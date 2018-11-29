@@ -20,6 +20,8 @@ const styles = theme => ({
   });
 
 const FlightBookingList = ({ flightData, classes }) => {
+    console.log(flightData)
+    if(flightData === undefined || flightData.length === 0) return <div>No Data Found</div>
     return (
         <div className={classes.root}>
             <GridList cellHeight={550} className={classes.gridList}>

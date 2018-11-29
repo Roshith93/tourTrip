@@ -114,10 +114,10 @@ class Buses extends Component {
             style={{marginTop: '24px'}}
             mode="landscape" />
             <br/>
-            <RaisedButton className="right" label="Search Bus" primary={true} onClick={this.submit} />
+            
              </form>
             <br/>
-         
+            <RaisedButton  label="Search Bus" primary={true} onClick={this.submit} />
           <Dialog
             actions={actions}
             modal={false}

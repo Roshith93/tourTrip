@@ -20,6 +20,7 @@ const styles = theme => ({
   });
 
 const BusBookingList = ({ busData, classes }) => {
+    if(busData == undefined || busData.length === 0) return <div>No Data Found</div>
     return (
         <div className={classes.root}>
             <GridList cellHeight={620} className={classes.gridList}>
