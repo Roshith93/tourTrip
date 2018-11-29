@@ -52,9 +52,11 @@ class BusBooking extends Component {
     handleClose = () => {
         this.setState({ snackopen: false,
             load: true });
+            this.props.userBusData(this.userData);
+
     }
 
-    handleSubmit = Transition => {
+    handleSubmit = Transition => () => {
         const { busData, auth } = this.props;
         let date = new Date();
         this.userData.serviceId= busData.serviceId,
@@ -72,7 +74,6 @@ class BusBooking extends Component {
         this.userData.date = moment(date).format('DD-MM-YYYY');
         this.userData.id = auth.uid;
         console.log(this.userData);
-        this.props.userBusData(this.userData);
         this.setState({ snackopen: true, Transition });
     }
     render() {

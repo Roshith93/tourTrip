@@ -25,7 +25,7 @@ const FlightBookingList = ({ flightData, classes }) => {
             <GridList cellHeight={550} className={classes.gridList}>
             {flightData.map((flightData, i) => {
                 return (
-            <div className="card horizontal hoverable">
+            <div className="card horizontal hoverable" key={i}>
                 <div className="card-content container">
 
                     <List>

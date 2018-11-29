@@ -25,7 +25,7 @@ const BusBookingList = ({ busData, classes }) => {
             <GridList cellHeight={620} className={classes.gridList}>
             {busData.map((busData, i) => {
                 return (
-            <div className="card horizontal hoverable">
+            <div className="card horizontal hoverable" key={i}>
                 <div className="card-content container">
 
                     <List>

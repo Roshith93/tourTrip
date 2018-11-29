@@ -117,7 +117,9 @@ class Flights extends Component {
       />,
     ];
     return (
-      <div>
+      <div className="container">
+        <div className="card-panel">
+        <h5 className="center">Search Flights</h5>
         <form className={classes.root} autoComplete="off">
         <FormControl required className={classes.formControl}>
           <AutoComplete
@@ -146,6 +148,7 @@ class Flights extends Component {
               value={this.state.adult}
               onChange={this.handleChange}
               name="adult"
+              style={{marginTop:'30px'}}
               inputProps={{
                 id: 'adult-required',
               }}
@@ -170,15 +173,17 @@ class Flights extends Component {
             </Select>
             <FormHelperText>Required</FormHelperText>
           </FormControl>
-        </form>
-        <br /><br />
-        <DatePicker hintText="Departure Date"
+          <DatePicker hintText="Departure Date"
           minDate={this.state.minDate}
+          style={{marginTop:'15px'}}
           onChange={this.date}
           mode="landscape" />
-        <br /><br />
+          <br/>
+          
+        </form>
         <RaisedButton label="Search Flight" primary={true} onClick={this.submit} />
-
+        {this.state.load ? <ComponentData data={this.state} /> : null}
+        </div>
         <Dialog
           actions={actions}
           modal={false}
@@ -187,7 +192,7 @@ class Flights extends Component {
         >
           Please fill all the fields correctlly
        </Dialog>
-        {this.state.load ? <ComponentData data={this.state} /> : null}
+       
       </div>
 
     );

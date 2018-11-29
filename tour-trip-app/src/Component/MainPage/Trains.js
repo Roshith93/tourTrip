@@ -14,7 +14,6 @@ import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Chip from '@material-ui/core/Chip';
 
 
 const minDate1 = new Date();
@@ -133,7 +132,9 @@ class Trains extends Component {
       />,
     ];
     return (
-      <div>
+      <div className="container">
+        <div className="card-panel">
+        <h5 className="center">Search Trains</h5>
         <form className={classes.root} autoComplete="off">
           <FormControl required className={classes.formControl}>
             <InputLabel htmlFor="source-required">Source</InputLabel>
@@ -169,12 +170,12 @@ class Trains extends Component {
           <DatePicker hintText="Departure Date"
           minDate={this.state.minDate}
           onChange={this.date}
+          style={{marginTop:'15px'}}
           mode="landscape" />
         </form>
-        <br /><br />
-       
-        <br /><br />
-        <RaisedButton label="Search Flight" primary={true} onClick={this.submit} /> 
+        <RaisedButton label="Search Trains" primary={true} onClick={this.submit} /> 
+        {this.state.load ? <TrainData data={this.state} /> : null}
+        </div>
         <Dialog
           actions={actions}
           modal={false}
@@ -182,9 +183,7 @@ class Trains extends Component {
           onRequestClose={this.handleClose}
         >
           Please fill all the fields correctlly
-       </Dialog>
-        {this.state.load ? <TrainData data={this.state} /> : null}
-
+       </Dialog>    
       </div>
 
     )
