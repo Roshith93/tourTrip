@@ -27,24 +27,28 @@ class SignIn extends Component {
         const { authError, auth } = this.props;
         if (auth.uid) return <Redirect to='/' /> 
         return (
-            <div style={this.style}>
-                <TextField
-                    hintText="johndoe@abc.com"
-                    floatingLabelText="Email"
-                    onChange={this.handleChange}
-                    id="email"
-                /><br />
-                <TextField
-                    hintText="Password"
-                    floatingLabelText="Password"
-                    type="password"
-                    onChange={this.handleChange}
-                    id="password"
-                /><br />
+            <div className="container">
+                <div className="card-panel">
+                    <div className="card-panel hoverable center">
+                        <TextField
+                            hintText="johndoe@abc.com"
+                            floatingLabelText="Email"
+                            onChange={this.handleChange}
+                            id="email"
+                        /><br />
+                        <TextField
+                            hintText="Password"
+                            floatingLabelText="Password"
+                            type="password"
+                            onChange={this.handleChange}
+                            id="password"
+                        /><br />
 
-                <RaisedButton label="Submit" primary={true} onClick={this.submit} />
-                <br/><br/>
-                { authError !== null ? <p>{ authError }</p>: <p></p> }
+                        <RaisedButton label="Sign In" primary={true} onClick={this.submit} />
+                        <br/><br/>
+                        { authError !== null ? <p>{ authError }</p>: <p></p> }
+                    </div>
+                </div>
             </div>
         )
     }
