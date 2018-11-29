@@ -53,10 +53,10 @@ function getSorting(order, orderBy) {
 
 const rows = [
     { id: 'airline', numeric: false, disablePadding: true, label: 'Airline Name' },
-    { id: 'arrtime', numeric: false, disablePadding: false, label: 'Arrival Time' },
-    { id: 'deptime', numeric: false, disablePadding: false, label: 'Departure Time' },
-    { id: 'duration', numeric: false, disablePadding: false, label: 'Duration' },
-    { id: 'totalFare', numeric: false, disablePadding: false, label: 'Total Fare' },
+    { id: 'arrtime', numeric: false, disablePadding: true, label: 'Arrival Time' },
+    { id: 'deptime', numeric: false, disablePadding: true, label: 'Departure Time' },
+    { id: 'duration', numeric: false, disablePadding: true, label: 'Duration' },
+    { id: 'totalFare', numeric: false, disablePadding: true, label: 'Total Fare' },
 ];
 
 class EnhancedTableHead extends React.Component {
