@@ -54,8 +54,8 @@ class Flights extends Component {
     destinationIATA: '',
     source: '',
     dest: '',
-    adult: '',
-    child: '',
+    adult: 0,
+    child: 1,
     deptDate: null,
   };
   style = {

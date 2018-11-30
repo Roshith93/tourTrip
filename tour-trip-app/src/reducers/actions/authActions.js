@@ -36,7 +36,8 @@ export const signIn = (credentials) => {
         return firestore.collection('users').doc(resp.user.uid).set({
           firstName: newUser.firstName,
           lastName: newUser.lastName,
-          initials: newUser.firstName[0] + newUser.lastName[0]
+          initials: newUser.firstName[0] + newUser.lastName[0],
+          image : newUser.URL,
         });
       }).then(() => {
         dispatch({ type: 'SIGNUP_SUCCESS' });
@@ -46,3 +47,21 @@ export const signIn = (credentials) => {
       });
     }
   }   
+
+  export const update = (update) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+      const firestore = getFirestore();
+      var ref = firestore.collection("users").doc(update.uid);
+      return ref.update({
+          image: update.URL
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+          dispatch({ type: 'UPDATED' });
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+    }
+  }

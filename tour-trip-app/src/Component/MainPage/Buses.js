@@ -11,6 +11,7 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import ImageUploader from 'react-images-upload';
 
 
 const Stations = [];
@@ -40,6 +41,8 @@ class Buses extends Component {
     minDate: minDate1,
     open: false,
     load: false,
+    file: null,
+    pictures: []
   }
   style = {
     marginLeft: '30px',
@@ -77,6 +80,19 @@ class Buses extends Component {
       this.setState({ load: true })
     }
   }
+  handle = (e) =>{
+    console.log(e.target.files[0]);
+    this.setState({file : e.target.files[0]});
+    console.log(this.state.file);
+  }
+  onDrop(picture) {
+    console.log(picture[0])
+    // this.setState({
+    //     pictures: this.state.pictures.concat(picture),
+    // });
+
+    this.setState({file : URL.createObjectURL(picture[0])});
+}
   render() {
     const { auth, classes } = this.props;
     console.log(this.props)
@@ -129,6 +145,21 @@ class Buses extends Component {
           {this.state.load ? <BusData data={this.userData} /> : null}
          
         </div>
+        <RaisedButton
+
+          containerElement='label' // <-- Just add me!
+          label='My Label'>
+         <input type="file" onChange={this.handle}/>
+        </RaisedButton>
+        
+        <ImageUploader
+                withIcon={true}
+                buttonText='Choose images'
+                onChange={this.onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+            />
+        <img src={this.state.file}/>
         </div>
     )
   }

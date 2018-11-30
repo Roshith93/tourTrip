@@ -146,7 +146,7 @@ class FlightBooking extends Component {
                                             nestedItems={[
                                                 <ListItem
                                                     key={1}
-                                                    primaryText="Total Passangers(Adult+Children)"
+                                                    primaryText="Total Passangers(Children+Adult)"
                                                     secondaryText={`${flightData.children} + ${flightData.adult} = ${flightData.passangers}`}
                                                     disabled={true}
 
