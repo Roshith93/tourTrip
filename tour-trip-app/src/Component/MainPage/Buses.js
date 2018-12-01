@@ -56,17 +56,17 @@ class Buses extends Component {
 
   handleChangeSource = (e) => {
     this.userData.source = e.toLowerCase();
-    this.setState({load : false});
+    this.setState({ load: false });
   }
 
   handleChangeDestination = (e) => {
     this.userData.destination = e.toLowerCase();
-    this.setState({load : false});
+    this.setState({ load: false });
   }
 
   date = (event, date) => {
     this.userData.deptDate = moment(date).format('YYYYMMDD');
-    this.setState({load : false});
+    this.setState({ load: false });
   }
 
   submit = () => {
@@ -81,7 +81,7 @@ class Buses extends Component {
   render() {
     const { auth, classes } = this.props;
     console.log(this.props)
-    if (!auth.uid) return <Redirect to='/signin' /> 
+    if (!auth.uid) return <Redirect to='/signin' />
     const actions = [
       <FlatButton
         label="Discard"
@@ -92,33 +92,32 @@ class Buses extends Component {
     return (
       <div className="container">
         <div className="card-panel">
-        <h5 className="center">Search Buses</h5>
-        <form className={classes.root} autoComplete="off">
-          <AutoComplete
-            floatingLabelText="Source"
-            filter={AutoComplete.fuzzyFilter}
-            dataSource={Stations}
-            maxSearchResults={5}
-            onNewRequest={this.handleChangeSource}
-          />
-          <AutoComplete
-            style={this.style}
-            floatingLabelText="Destination"
-            filter={AutoComplete.fuzzyFilter}
-            dataSource={Stations}
-            maxSearchResults={5}
-            onNewRequest={this.handleChangeDestination}
-          />
-          <DatePicker hintText="Departure Date"
-            minDate={this.state.minDate}
-            onChange={this.date}
-            style={{marginTop: '24px'}}
-            mode="landscape" />
-            <br/>
-            
-             </form>
-            <br/>
-            <RaisedButton  label="Search Bus" primary={true} onClick={this.submit} />
+          <h5 className="center">Search Buses</h5>
+          <form className={classes.root} autoComplete="off">
+            <AutoComplete
+              floatingLabelText="Source"
+              filter={AutoComplete.fuzzyFilter}
+              dataSource={Stations}
+              maxSearchResults={5}
+              onNewRequest={this.handleChangeSource}
+            />
+            <AutoComplete
+              style={this.style}
+              floatingLabelText="Destination"
+              filter={AutoComplete.fuzzyFilter}
+              dataSource={Stations}
+              maxSearchResults={5}
+              onNewRequest={this.handleChangeDestination}
+            />
+            <DatePicker hintText="Departure Date"
+              minDate={this.state.minDate}
+              onChange={this.date}
+              style={{ marginTop: '24px' }}
+              mode="landscape" />
+            <br />
+          </form>
+          <br />
+          <RaisedButton label="Search Bus" primary={true} onClick={this.submit} />
           <Dialog
             actions={actions}
             modal={false}
@@ -128,9 +127,8 @@ class Buses extends Component {
             Please fill all the fields
           </Dialog>
           {this.state.load ? <BusData data={this.userData} /> : null}
-         
         </div>
-        </div>
+      </div>
     )
   }
 }
@@ -139,10 +137,10 @@ Buses.propTypes = {
 };
 const mapStateToProps = (state) => {
   console.log(state.firestore);
- return {
-   projects: state.firestore,
-   auth: state.firebase.auth
- }
+  return {
+    projects: state.firestore,
+    auth: state.firebase.auth
+  }
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(Buses));

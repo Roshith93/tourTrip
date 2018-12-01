@@ -20,8 +20,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
-let data = "asdasdasdas";
 const styles = theme => ({
     root: {
         alignitem: 'center',
@@ -59,8 +57,6 @@ const styles = theme => ({
 });
 
 class SignUp extends Component {
-
-
     state = {
         firstName: null,
         lastName: null,
@@ -73,6 +69,7 @@ class SignUp extends Component {
         loading1: false,
         success1: false,
         open: false,
+        open1: false,
     }
     style = {
         maxWidth: '500px',
@@ -87,7 +84,9 @@ class SignUp extends Component {
         margin: 'auto'
     }
     changeLoad = () => {
-            this.setState({ loading1: false});  
+        const { authError } = this.props;
+        if(authError !== null)
+        this.setState({ loading1: false });
     }
     handleButtonClick = () => {
         if (!this.state.loading) {
@@ -103,29 +102,26 @@ class SignUp extends Component {
     submit = (e) => {
         e.preventDefault();
         console.log(this.state);
-        if(this.state.firstName === null || this.state.lastName === null || this.state.email === null ||
-            this.state.password === null)
-        {  
+        if (this.state.firstName === null || this.state.lastName === null || this.state.email === null ||
+            this.state.password === null) {
             this.handleClickOpen();
         }
-        else
-        {
+        else {
             this.setState({
                 success1: false,
                 loading1: true,
             });
             this.props.signUp(this.state);
-            
         }
     }
     handle = (e) => {
-
         this.setState({ image: e.target.files[0] });
         this.setState({ success: false })
         console.log(this.state);
     }
     handleClick = () => {
         const { image } = this.state;
+        if(image !== null){
         const uploadTask = storage.ref(`images/${image.name}`).put(image);
         uploadTask.on('state_changed',
             (snapshot) => {
@@ -147,14 +143,17 @@ class SignUp extends Component {
                     });
                 })
             });
+        }
+        else{
+            this.setState({ open1: true });   
+        }
     }
     handleClickOpen = () => {
         this.setState({ open: true });
-      };
-    
-      handleClose = () => {
-        this.setState({ open: false });
-      };
+    };
+    handleClose = () => {
+        this.setState({ open: false, open1: false });
+    };
     render() {
         const { authError, auth } = this.props;
         const { loading, success, loading1, success1 } = this.state;
@@ -230,16 +229,34 @@ class SignUp extends Component {
                     open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="responsive-dialog-title"
-                    >
+                >
                     <DialogTitle id="responsive-dialog-title">User SignUp Error!!!</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                        Please fill all the feilds correctly. 
+                            Please fill all the feilds correctly.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary" autoFocus>
-                        close
+                            close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog
+                    fullScreen={fullScreen}
+                    open={this.state.open1}
+                    onClose={this.handleClose}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">Upload Faild!!!</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Please select any image!!!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary" autoFocus>
+                            close
                         </Button>
                     </DialogActions>
                 </Dialog>
