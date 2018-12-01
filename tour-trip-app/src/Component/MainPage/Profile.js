@@ -3,29 +3,45 @@ import dummy from '../../images/dummy.png';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { update } from '../../reducers/actions/authActions';
-
+import { storage } from '../../config/fbConfig'
 class Profile extends Component {
     state = {
         uid: null,
         URL: null,
+        image: null,
     }
     handle = (e) => {
         console.log(e.target.files[0]);
         const { auth } = this.props;
 
         this.state.uid = auth.auth.uid
-       
-        let a = '';
-        a = e.target.files[0];
-        
-        this.state.URL = a.toString();
-        console.log(this.state);
-        this.props.update(this.state);
+        if(e.target.files[0])
+        {
+            this.state.image = e.target.files[0];
 
+        }
+    }
+    handleUpload = () => {
+        const {image} = this.state;
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);    
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+
+        }
+        , (error => {
+            console.log(error)
+        }), () => {
+            storage.ref('images').child(image.name).getDownloadURL().then(url => {
+                console.log(url);
+                this.setState({URL : url});
+                this.props.update(this.state);
+            })
+        });
     }
 
     render(){
     const { auth } = this.props;
+    this.state.URL = auth.profile.image === null ? dummy : auth.profile.image;
     if(!auth.auth.uid) return(<Redirect to='/signin'/>)
     return(
         <div className="container">
@@ -34,7 +50,9 @@ class Profile extends Component {
                 <h4 className="center">User Profile</h4>
                 <div className="card horizontal">
                     <div className="card-image center hoverable" style={{ width: '300px', height: '250px', margin: '50px' }}>
-                        <img src={this.state.URL === null ? dummy : URL.createObjectURL(this.state.URL)}  style={{width: '250px', height: '200px'}}/>
+                        <img src={this.state.URL}  style={{width: '250px', height: '200px'}}/>
+                        <input type="file" style={{width: '60px'}}onChange={this.handle} />
+                        <button onClick={this.handleUpload}>Upload</button>
                     </div>
 
                     <div className="card-content hoverable container">
@@ -45,7 +63,7 @@ class Profile extends Component {
                     </div>
                 </div>
             </div>
-            <input type="file" onChange={this.handle} />
+           
             </div>
         </div>
     )
