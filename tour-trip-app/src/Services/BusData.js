@@ -26,6 +26,7 @@ class BusData extends Component {
     };
     handleClose = () => {
         this.setState({ open: false });
+        window.location.reload();
     };
     componentDidMount() {
         const { data } = this.props;
@@ -42,6 +43,7 @@ class BusData extends Component {
                 console.log(Busses);
                 if (Busses[0] === undefined) {
                     this.setState({ open: true });
+                   
                 }
                 else
                     this.setState({ loaded: true })
@@ -60,7 +62,7 @@ class BusData extends Component {
                     <div>
                         <BusDataTable bus={Busses} />
                     </div>
-                    : <h2> <strong>Still Loading...</strong></h2>}
+                    : <div className="center">Still Loading...</div>}
                 <Dialog
                     actions={actions}
                     modal={false}

@@ -5,6 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { userFlightData } from '../reducers/actions/projectAction'
 import { connect } from 'react-redux';
 import FlightDataTable from './FlightDataTable'
+import { Redirect } from 'react-router-dom'
 const app_id = "c66591e4";
 const api_key = "89d9830bfee0cb120f65ef19e5ed1fce";
 const base_url = "https://developer.goibibo.com";
@@ -21,6 +22,7 @@ class ComponentData extends Component {
    
     handleClose = () => {
         this.setState({ open: false });
+        window.location.reload();
     };
 
     componentDidMount() {
@@ -31,17 +33,19 @@ class ComponentData extends Component {
         //  let url = 'https://developer.goibibo.com/api/search/?app_id=c66591e4&app_key=89d9830bfee0cb120f65ef19e5ed1fce&source=WAS&destination=DEL&dateofdeparture=20181108&adults=3&children=2&counter=100';
         axios.get(url)
             .then(response => {
-                for (let i = 0; i < 20; i++) {
-                    if(response.data.data.onwardflights[i].airline !== undefined)
-                       flights.push(response.data.data.onwardflights[i]);
-                }
-                if (flights[0].airline === undefined) {
-                    this.setState({ open: true });
-                    console.log("No data");
-                }
-                else
+                if(response.data.data.onwardflights.length !== 0)
+                {
+                    for (let i = 0; i < 20; i++) {
+                        if(response.data.data.onwardflights[i].airline !== undefined)
+                        flights.push(response.data.data.onwardflights[i]);
+                    }
                     this.setState({ loaded: true })
-            })
+                }
+                else {
+                    this.setState({ open: true });
+                }                        
+                })
+        
     }
     render() {
         const actions = [
@@ -55,14 +59,14 @@ class ComponentData extends Component {
                 {this.state.loaded ?
                     <FlightDataTable flight={flights} userData={this.props.data}/>
                        
-                    : <div> Still Loading...</div>}
+                    : <div className="center"> Still Loading...</div>}
                      <Dialog
                             actions={actions}
                             modal={false}
                             open={this.state.open}
                             onRequestClose={this.handleClose}
                         >
-                            Discard draft?
+                            No flight on this route...
                     </Dialog>
             </div>
         )
