@@ -74,7 +74,11 @@ class FlightBooking extends Component {
         const { flightData, userProfile } = this.props;
         if (!userProfile.auth.uid) return (<Redirect to='/signin' />)
         if(this.state.load) return(<Redirect to='/' />);
+        if(flightData === null) return(<Redirect to='/flight' />)
         console.log(flightData);
+        if(flightData.childbasefare === undefined) {
+            flightData.childbasefare = 1;
+        };
         return (
             <div className="container">
                 <div className=" col m10 s12">
@@ -154,7 +158,7 @@ class FlightBooking extends Component {
                                                 <ListItem
                                                     key={2}
                                                     primaryText="Child Base Fare"
-                                                    secondaryText={flightData.childbasefare}
+                                                    secondaryText={flightData.childbasefare !== 1 ? flightData.childbasefare: 'undefined'}
                                                     disabled={true}
                                                 />,
                                                 <ListItem
