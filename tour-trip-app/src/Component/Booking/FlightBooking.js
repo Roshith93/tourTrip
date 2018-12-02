@@ -8,6 +8,7 @@ import { userFlightData } from '../../reducers/actions/projectAction';
 import moment from 'moment';
 import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
+import StripeCheckout from 'react-stripe-checkout';
 
 function TransitionLeft(props) {
     return <Slide style={{background: 'green'}} {...props} direction="left" />;
@@ -69,6 +70,17 @@ class FlightBooking extends Component {
         console.log(this.userData);
         this.props.userFlightData(this.userData);
         this.setState({ snackopen: true, Transition });
+    }
+    onToken = (token) => {
+        fetch('/save-stripe-token', {
+          method: 'POST',
+          body: JSON.stringify(token),
+        }).then(response => {
+          console.log(response)
+          response.json().then(data => {
+            alert(`We are in business, ${data.email}`);
+          });
+        });
     }
     render() {
         const { flightData, userProfile } = this.props;
@@ -176,6 +188,10 @@ class FlightBooking extends Component {
                                 <button className="btn waves-effect waves-light" type="submit" name="action" onClick={this.handleSubmit(TransitionLeft)}>Submit
                                         <i className="material-icons right">send</i>
                                 </button>
+                                <StripeCheckout
+                                    token={this.onToken}
+                                    stripeKey="pk_test_OtJ6x0R6iu2bRqiX7oHTGo11"
+                                />
                                 <Snackbar
                                     open={this.state.snackopen}
                                     onClose={this.handleClose}
