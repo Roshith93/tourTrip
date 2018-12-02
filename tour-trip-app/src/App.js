@@ -3,7 +3,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Navbar from './Component/Navbar/Navbar'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Flights from './Component/MainPage/Flights'
-import Hotels from './Component/MainPage/Hotels'
 import Trains from './Component/MainPage/Trains'
 import SignIn from './Component/Auth/SignIn';
 import SignUp from './Component/Auth/SignUp';
