@@ -85,8 +85,8 @@ class SignUp extends Component {
     }
     changeLoad = () => {
         const { authError } = this.props;
-        if(authError !== null)
-        this.setState({ loading1: false });
+        if (authError !== null)
+            this.setState({ loading1: false });
     }
     handleButtonClick = () => {
         if (!this.state.loading) {
@@ -121,31 +121,31 @@ class SignUp extends Component {
     }
     handleClick = () => {
         const { image } = this.state;
-        if(image !== null){
-        const uploadTask = storage.ref(`images/${image.name}`).put(image);
-        uploadTask.on('state_changed',
-            (snapshot) => {
-                this.setState({
-                    success: false,
-                    loading: true,
-                });
-            }
-            , (error => {
-                console.log(error)
-            }), () => {
-
-                storage.ref('images').child(image.name).getDownloadURL().then(url => {
-                    console.log(url);
-                    this.setState({ URL: url });
+        if (image !== null) {
+            const uploadTask = storage.ref(`images/${image.name}`).put(image);
+            uploadTask.on('state_changed',
+                (snapshot) => {
                     this.setState({
-                        success: true,
-                        loading: false,
+                        success: false,
+                        loading: true,
                     });
-                })
-            });
+                }
+                , (error => {
+                    console.log(error)
+                }), () => {
+
+                    storage.ref('images').child(image.name).getDownloadURL().then(url => {
+                        console.log(url);
+                        this.setState({ URL: url });
+                        this.setState({
+                            success: true,
+                            loading: false,
+                        });
+                    })
+                });
         }
-        else{
-            this.setState({ open1: true });   
+        else {
+            this.setState({ open1: true });
         }
     }
     handleClickOpen = () => {

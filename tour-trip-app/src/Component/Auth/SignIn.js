@@ -68,8 +68,8 @@ class SignIn extends Component {
     }
     changeLoad = () => {
         const { authError } = this.props;
-        if(authError !== null){
-        this.setState({loading : false});
+        if (authError !== null) {
+            this.setState({ loading: false });
         }
     }
     handleButtonClick = () => {
@@ -104,13 +104,13 @@ class SignIn extends Component {
     };
     render() {
         const { authError, auth } = this.props;
-        const { loading, success} = this.state;
+        const { loading, success } = this.state;
         const { classes } = this.props;
         const { fullScreen } = this.props;
         const buttonClassname = classNames({
             [classes.buttonSuccess]: success,
         });
-        if (auth.uid) return <Redirect to='/' /> 
+        if (auth.uid) return <Redirect to='/' />
         return (
             <div className="container">
                 <div className="card-panel">
@@ -128,7 +128,7 @@ class SignIn extends Component {
                             onChange={this.handleChange}
                             id="password"
                         /><br />
-                         <div calssName={classes.root}>
+                        <div calssName={classes.root}>
                             <div className={classes.wrapper}>
                                 <Button
                                     style={{ align: 'center', display: 'flex', margin: 'auto' }}
@@ -143,9 +143,9 @@ class SignIn extends Component {
                                 {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                             </div>
                         </div>
-                        <RaisedButton label="Sign In" primary={true} onClick={this.submit} />
-                        <br/><br/>
-                        { authError !== null ? <p>{ authError }</p>: <p></p> }
+                       
+                        <br /><br />
+                        {authError !== null ? <p>{authError}</p> : <p></p>}
                     </div>
                 </div>
                 <Dialog
