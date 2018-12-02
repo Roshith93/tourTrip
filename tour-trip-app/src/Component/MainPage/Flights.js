@@ -21,7 +21,7 @@ const adults = [];
 const child = [];
 const minDate1 = new Date();
 const Stations = [];
-var Bus = Object.keys(FlightStationName).map(function (key) {
+var flight = Object.keys(FlightStationName).map(function (key) {
   return (
     Stations.push(FlightStationName[key])
   )
@@ -54,8 +54,8 @@ class Flights extends Component {
     destinationIATA: '',
     source: '',
     dest: '',
-    adult: 0,
-    child: 1,
+    adult: '',
+    child: '',
     deptDate: null,
   };
   style = {
@@ -126,7 +126,7 @@ class Flights extends Component {
             floatingLabelText="Source*"
             filter={AutoComplete.fuzzyFilter}
             dataSource={Stations}
-            maxSearchResults={5}
+            maxSearchResults={10}
             onNewRequest={this.handleChangeSource}
           />
            <FormHelperText>Required</FormHelperText>
@@ -137,7 +137,7 @@ class Flights extends Component {
             floatingLabelText="Destination*"
             filter={AutoComplete.fuzzyFilter}
             dataSource={Stations}
-            maxSearchResults={5}
+            maxSearchResults={10}
             onNewRequest={this.handleChangeDestination}
           />
            <FormHelperText>Required</FormHelperText>

@@ -98,7 +98,7 @@ class Buses extends Component {
               floatingLabelText="Source"
               filter={AutoComplete.fuzzyFilter}
               dataSource={Stations}
-              maxSearchResults={5}
+              maxSearchResults={10}
               onNewRequest={this.handleChangeSource}
             />
             <AutoComplete
@@ -106,7 +106,7 @@ class Buses extends Component {
               floatingLabelText="Destination"
               filter={AutoComplete.fuzzyFilter}
               dataSource={Stations}
-              maxSearchResults={5}
+              maxSearchResults={10}
               onNewRequest={this.handleChangeDestination}
             />
             <DatePicker hintText="Departure Date"
