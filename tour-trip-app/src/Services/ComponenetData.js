@@ -33,6 +33,8 @@ class ComponentData extends Component {
         //  let url = 'https://developer.goibibo.com/api/search/?app_id=c66591e4&app_key=89d9830bfee0cb120f65ef19e5ed1fce&source=WAS&destination=DEL&dateofdeparture=20181108&adults=3&children=2&counter=100';
         axios.get(url)
             .then(response => {
+                console.log(response.data.data.onwardflights);
+                console.log(response.data.data.onwardflights.length);
                 if(response.data.data.onwardflights.length !== 0)
                 {
                     for (let i = 0; i < 20; i++) {
