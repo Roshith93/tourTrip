@@ -22,14 +22,12 @@ const source = [
   <MenuItem value={'ANDI'} key={1}>Delhi</MenuItem>,
   <MenuItem value={'AGA'} key={2}>Agra</MenuItem>,
   <MenuItem value={'PTA'} key={3}>Patiala</MenuItem>,
-  <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
 ];
 const destination = [
   <MenuItem value={'AI'} key={0}><em>Adipur</em></MenuItem>,
   <MenuItem value={'ANDI'} key={1}>Delhi</MenuItem>,
   <MenuItem value={'AGA'} key={2}>Agra</MenuItem>,
   <MenuItem value={'PTA'} key={3}>Patiala</MenuItem>,
-  <MenuItem value={'DEL'} key={4}>Delhi</MenuItem>,
 ];
 
 const trainClass = [
@@ -189,6 +187,7 @@ class Trains extends Component {
     )
   }
 }
+
 Trains.propTypes = {
   classes: PropTypes.object.isRequired,
 };
