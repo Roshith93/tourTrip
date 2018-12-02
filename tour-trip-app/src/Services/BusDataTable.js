@@ -20,7 +20,7 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addBusData } from '../reducers/actions/projectAction';
-
+import '../table.css'
 function createData(id, travelsName, arrivalTime, departureTime, duration, busType, totalFare, rating) {
   return { id, travelsName, arrivalTime, departureTime, duration, busType, totalFare, rating };
 }
@@ -123,13 +123,13 @@ const toolbarStyles = theme => ({
         backgroundColor: theme.palette.secondary.dark,
       },
   spacer: {
-    flex: '1 1 100%',
+    // flex: '1 1 100%',
   },
   actions: {
     color: theme.palette.text.secondary,
   },
   title: {
-    flex: '0 0 auto',
+    // flex: '0 0 auto',
   },
 });
 
@@ -168,8 +168,8 @@ EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
 const styles = theme => ({
   root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    // width: '100%',
+    // marginTop: theme.spacing.unit * 3,
   },
   table: {
     minWidth: 1020,
@@ -286,6 +286,7 @@ class BusDataTable extends React.Component {
                       return (
                         <TableRow
                           hover
+                          
                           onClick={event => this.handleClick(event, n.id)}
                           role="checkbox"
                           aria-checked={isSelected}
@@ -293,15 +294,15 @@ class BusDataTable extends React.Component {
                           key={key}
                           selected={isSelected}
                         >
-                          <TableCell component="th" scope="row" padding="none">
+                          <TableCell component="th" style={{textAlign: 'left!important', padding:'none!important'}} scope="row" padding="none">
                             {n.travelsName}
                           </TableCell>
-                          <TableCell numeric>{n.arrivalTime}</TableCell>
-                          <TableCell numeric>{n.departureTime}</TableCell>
-                          <TableCell numeric>{n.duration}</TableCell>
-                          <TableCell numeric>{n.busType}</TableCell>
-                          <TableCell numeric>{n.totalFare}</TableCell>
-                          <TableCell numeric>{n.rating}</TableCell>
+                          <TableCell  style={{textAlign: 'left!important', padding:'none!important'}} padding="none">{n.arrivalTime}</TableCell>
+                          <TableCell  padding="none">{n.departureTime}</TableCell>
+                          <TableCell  padding="none">{n.duration}</TableCell>
+                          <TableCell  padding="none">{n.busType}</TableCell>
+                          <TableCell  padding="none">{n.totalFare}</TableCell>
+                          <TableCell  padding="none">{n.rating}</TableCell>
                         </TableRow>
                       );
                     })}

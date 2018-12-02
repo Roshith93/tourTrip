@@ -328,10 +328,10 @@ class FlightDataTable extends React.Component {
                                                     <TableCell component="th" scope="row" padding="none">
                                                         {n.airline}
                                                     </TableCell>
-                                                    <TableCell numeric>{n.arrtime}</TableCell>
-                                                    <TableCell numeric>{n.deptime}</TableCell>
-                                                    <TableCell numeric>{n.duration}</TableCell>
-                                                    <TableCell numeric>{n.totalFare}</TableCell>
+                                                    <TableCell >{n.arrtime}</TableCell>
+                                                    <TableCell >{n.deptime}</TableCell>
+                                                    <TableCell >{n.duration}</TableCell>
+                                                    <TableCell >{n.totalFare}</TableCell>
                                                 </TableRow>
                                             );
                                         })}

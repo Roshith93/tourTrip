@@ -292,11 +292,11 @@ class TrainDataTable extends React.Component {
                           <TableCell component="th" scope="row" padding="none">
                             {n.name}
                           </TableCell>
-                          <TableCell numeric>{n.number}</TableCell>
-                          <TableCell numeric>{n.dest_arrival_time}</TableCell>
-                          <TableCell numeric>{n.src_departure_time}</TableCell>
-                          <TableCell numeric>{n.travel_time}</TableCell>
-                          <TableCell numeric>{n.available}</TableCell>                          
+                          <TableCell >{n.number}</TableCell>
+                          <TableCell >{n.dest_arrival_time}</TableCell>
+                          <TableCell >{n.src_departure_time}</TableCell>
+                          <TableCell >{n.travel_time}</TableCell>
+                          <TableCell >{n.available}</TableCell>                          
                         </TableRow>
                       );
                     })}
