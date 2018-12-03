@@ -3,6 +3,7 @@ import { List, ListItem } from 'material-ui/List';
 import GridList from '@material-ui/core/GridList';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
 const styles = theme => ({
     root: {
@@ -21,6 +22,8 @@ const styles = theme => ({
 
 const BusBookingList = ({ busData, classes }) => {
     if(busData == undefined || busData.length === 0) return <div>No Data Found</div>
+    const date = new Date();
+    const todatyDate =  moment(date).format('YYYYMMDD')
     return (
         <div className={classes.root}>
             <GridList cellHeight={620} className={classes.gridList}>

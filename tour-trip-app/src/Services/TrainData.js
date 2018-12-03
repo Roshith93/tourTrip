@@ -11,7 +11,12 @@ class TrainData extends Component {
     state = {
         loaded: false,
         open: false,
+        open1: false,
     }
+    handleClose = () => {
+        this.setState({ open1: false, open: false });
+        window.location.reload();
+    };
     componentDidMount(){
         const { data } = this.props;
         var api_search = base_url + '/v2/between/source/' + data.source + '/dest/' + data.dest +
@@ -28,6 +33,7 @@ class TrainData extends Component {
             } 
             else
                 this.setState({ loaded: false })
+                this.setState({open1: true});
         })
         
     }
@@ -51,6 +57,14 @@ class TrainData extends Component {
                             onRequestClose={this.handleClose}
                         >
                             Error occured
+                    </Dialog>
+                    <Dialog
+                            actions={actions}
+                            modal={false}
+                            open={this.state.open1}
+                            onRequestClose={this.handleClose}
+                        >
+                            No train on our server to this route
                     </Dialog>
             </div>
         )

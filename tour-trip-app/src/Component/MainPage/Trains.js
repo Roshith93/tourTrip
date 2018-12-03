@@ -14,6 +14,8 @@ import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { TrainIATA, TrainName } from '../../IATACodes/TrainCodes';
+import AutoComplete from 'material-ui/AutoComplete';
 
 
 const minDate1 = new Date();
@@ -22,6 +24,7 @@ const source = [
   <MenuItem value={'ANDI'} key={1}>Delhi</MenuItem>,
   <MenuItem value={'AGA'} key={2}>Agra</MenuItem>,
   <MenuItem value={'PTA'} key={3}>Patiala</MenuItem>,
+  
 ];
 const destination = [
   <MenuItem value={'AI'} key={0}><em>Adipur</em></MenuItem>,
@@ -55,6 +58,7 @@ const quota = [
   <MenuItem value={'LB'} key={10}><em>Lower Berth</em></MenuItem>,
 
 ];
+
 let age = [];
 for(let i = 0; i < 90; i++)
 age.push(<MenuItem value={i} key={i}><em>{i}</em></MenuItem>,);
@@ -71,7 +75,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
 });
-
+const Stations = [];
+var flight = Object.keys(TrainName).map(function (key) {
+  return (
+    Stations.push(TrainName[key])
+  )
+});
 class Trains extends Component {
   state = {
     open: false,
@@ -117,6 +126,30 @@ class Trains extends Component {
     this.setState({ load: false })
     this.setState({ [event.target.name]: event.target.value });
   };
+  handleChangeSource = (e) => {
+    let sourceIATACode = TrainIATA[Stations.indexOf(e)];
+    this.setState({ 
+      source: sourceIATACode,
+      load : false
+    })
+    console.log(this.state);
+  }
+  handleChangeDestination = (e) => {
+    let destinationIATACode = TrainIATA[Stations.indexOf(e)];
+    this.setState({ 
+      dest: destinationIATACode,
+      load : false
+    })
+  }
+  handleChangeDestination = (e) => {
+    let destinationIATACode = TrainIATA[Stations.indexOf(e)];
+    let upper = e.toUpperCase();
+    this.setState({ 
+      dest: destinationIATACode,
+      dest: upper,
+      load : false
+    })
+  }
   render() {
     const { auth } = this.props;
     console.log(this.props)
@@ -135,33 +168,24 @@ class Trains extends Component {
         <h5 className="center">Search Trains</h5>
         <form className={classes.root} autoComplete="off">
           <FormControl required className={classes.formControl}>
-            <InputLabel htmlFor="source-required">Source</InputLabel>
-            <Select
-              value={this.state.source}
-              onChange={this.handleChange}
-              name="source"
-              inputProps={{
-                id: 'source-required',
-              }}
-              className={classes.selectEmpty}
-            >
-              {source}
-            </Select>
+            <AutoComplete
+            floatingLabelText="Source*"
+            filter={AutoComplete.fuzzyFilter}
+            dataSource={Stations}
+            maxSearchResults={10}
+            onNewRequest={this.handleChangeSource}
+          />
             <FormHelperText>Required</FormHelperText>
           </FormControl>
           <FormControl required className={classes.formControl}>
-            <InputLabel htmlFor="destination-required">Destination</InputLabel>
-            <Select
-              value={this.state.dest}
-              onChange={this.handleChange}
-              name="dest"
-              inputProps={{
-                id: 'destination-required',
-              }}
-              className={classes.selectEmpty}
-            >
-              {destination}
-            </Select>
+            <AutoComplete
+            style={this.style}
+            floatingLabelText="Destination*"
+            filter={AutoComplete.fuzzyFilter}
+            dataSource={Stations}
+            maxSearchResults={10}
+            onNewRequest={this.handleChangeDestination}
+          />
             <FormHelperText>Required</FormHelperText>
           </FormControl>
 

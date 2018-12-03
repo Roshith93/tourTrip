@@ -5,6 +5,7 @@ import { userTrainData } from '../../reducers/actions/projectAction';
 import moment from 'moment';
 import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
+import StripeCheckout from 'react-stripe-checkout';
 
 function TransitionLeft(props) {
     return <Slide style={{background: 'green'}} {...props} direction="left" />;
@@ -71,6 +72,10 @@ class TrainBooking extends Component {
                         <button className="btn waves-effect waves-light" type="submit" name="action" onClick={this.handleSubmit(TransitionLeft)}>Submit
                             <i className="material-icons right">send</i>
                         </button>
+                        <StripeCheckout
+                            token={this.onToken}
+                            stripeKey="pk_test_OtJ6x0R6iu2bRqiX7oHTGo11"
+                        />
                         <Snackbar
                             open={this.state.snackopen}
                             onClose={this.handleClose}

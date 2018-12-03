@@ -5,7 +5,6 @@ import FlatButton from 'material-ui/FlatButton';
 import { userFlightData } from '../reducers/actions/projectAction'
 import { connect } from 'react-redux';
 import FlightDataTable from './FlightDataTable'
-import { Redirect } from 'react-router-dom'
 const app_id = "c66591e4";
 const api_key = "89d9830bfee0cb120f65ef19e5ed1fce";
 const base_url = "https://developer.goibibo.com";
@@ -30,7 +29,6 @@ class ComponentData extends Component {
         var api_search = base_url + '/api/search/?app_id=' + app_id + '&app_key=' + api_key;
         let url = api_search + '&source=' + data.sourceIATA + '&destination=' + data.destinationIATA +
             '&dateofdeparture=' + data.deptDate + '&adults=' + data.adult + '&children=' + data.child + '&counter=100'
-        //  let url = 'https://developer.goibibo.com/api/search/?app_id=c66591e4&app_key=89d9830bfee0cb120f65ef19e5ed1fce&source=WAS&destination=DEL&dateofdeparture=20181108&adults=3&children=2&counter=100';
         axios.get(url)
             .then(response => {
                 console.log(response.data.data.onwardflights);
